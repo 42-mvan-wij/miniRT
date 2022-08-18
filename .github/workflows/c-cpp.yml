@@ -16,5 +16,12 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.PAT }}
-      - name: build miniRT
+
+      - name: Install Dependencies
+        run: |
+          set -x
+          brew update
+          brew install glfw
+
+      - name: Build
         run: make
