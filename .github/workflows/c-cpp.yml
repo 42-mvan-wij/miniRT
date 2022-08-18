@@ -12,6 +12,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: miniRT
-      run: make
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.PAT }}
+      - name: build miniRT
+        run: make
