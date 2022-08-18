@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/18 15:35:45 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/08/18 17:14:10 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,7 @@ debug:
 	@$(MAKE) DEBUG=1
 
 clean:
+	@git submodule update --init --recursive
 	@$(MAKE) -C $(dir $(LIBFT)) fclean
 	@$(MAKE) -C $(dir $(MLX42)) fclean
 	@$(call print_prefix,"$(PROJECT)","$@")
@@ -116,6 +117,6 @@ re: fclean all
 run: $(NAME)
 	@./$(NAME) $(ARGS)
 
-.PHONY: all debug clean fclean re sources
+.PHONY: all debug clean fclean re
 
 ################################################################################
