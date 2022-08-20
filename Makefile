@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/18 17:14:10 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/08/18 18:29:08 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,12 @@ CFLAGS		+= -Wall -Wextra -Werror -O3 $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsan
 ################################################################################
 
 USER_LIBS += $(LIBFT) $(MLX42)
+ifneq ($(or $(if ($(shell which pkg-config),),,DOESNT EXIST), $(if ($(shell pkg-config --exists --print-errors glfw3 2>&1),),DOESNT EXIST,)),) # if pkg-config is installed, and it can find glfw3, use it
+LIB_DIRS += $(shell pkg-config --libs-only-L glfw3)
+LIB_LOADS += $(shell pkg-config --libs-only-l glfw3)
+else
 SYSTEM_LIBS += glfw3
+endif
 FRAMEWORKS += Cocoa OpenGL IOKit
 
 HEADERS +=
@@ -41,6 +46,7 @@ NAME	:= $(NAME_BONUS)
 HEADERS +=
 SOURCES	+=
 CFLAGS	+= -DBONUS
+
 endif
 
 ################################################################################
