@@ -25,7 +25,7 @@ CFLAGS		+= -Wall -Wextra -Werror -O3 $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsan
 ################################################################################
 
 USER_LIBS += $(LIBFT) $(MLX42)
-ifneq ($(or $(if ($(shell which pkg-config),),,DOESNT EXIST), $(if ($(shell pkg-config --exists --print-errors glfw3 2>&1),),DOESNT EXIST,)),) # if pkg-config is installed, and it can find glfw3, use it
+ifneq ($(or $(if ($(shell test -e $$(which pkg-config)),),,DOESNT EXIST), $(if ($(shell pkg-config --exists --print-errors glfw3 2>&1),),,DOESNT EXIST)),) # if pkg-config is installed, and it can find glfw3, use it
 LIB_DIRS += $(shell pkg-config --libs-only-L glfw3)
 LIB_LOADS += $(shell pkg-config --libs-only-l glfw3)
 else
@@ -107,12 +107,15 @@ debug:
 
 clean:
 	@git submodule update --init --recursive
-	@$(MAKE) -C $(dir $(LIBFT)) fclean
-	@$(MAKE) -C $(dir $(MLX42)) fclean
+	@$(MAKE) -C $(dir $(LIBFT)) clean
+	@$(MAKE) -C $(dir $(MLX42)) clean
 	@$(call print_prefix,"$(PROJECT)","$@")
 	rm -rf $(OBJDIR)
 
 fclean: clean
+	@git submodule update --init --recursive
+	@$(MAKE) -C $(dir $(LIBFT)) fclean
+	@$(MAKE) -C $(dir $(MLX42)) fclean
 	@$(call print_prefix,"$(PROJECT)","$@")
 	rm -f $(NAME)
 	@$(call print_prefix,"$(PROJECT)","$@")
