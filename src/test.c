@@ -6,25 +6,16 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/22 18:13:26 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/23 15:26:19 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <memory.h>
-
 #include "libft.h"
 #include "structs.h"
 #include "input/input.h"
 #include "utils/utils.h"
-
-#define WIDTH 256
-#define HEIGHT 256
-
-mlx_image_t	*g_img;
+#include <stdlib.h>
 
 void	hook(void *param)
 {
@@ -54,6 +45,7 @@ void	print_error(void)
 	[E_EXPECTED_FLOAT] = "Expected float",
 	[E_EXPECTED_INTEGER] = "Expected integer",
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
+	[E_MLX] = "MLX Error",
 	};
 
 	ft_putstr_fd((char *)error_texts[error.error], STDOUT_FILENO);
@@ -71,7 +63,7 @@ int32_t	main(void)
 		return (EXIT_FAILURE);
 	}
 	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	if (!mlx)
+	if (mlx == NULL)
 		exit(EXIT_FAILURE);
 	g_img = mlx_new_image(mlx, 128, 128);
 	memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));

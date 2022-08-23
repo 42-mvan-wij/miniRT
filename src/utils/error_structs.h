@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/22 18:13:06 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/23 15:21:53 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef enum e_error {
 	E_EXPECTED_FLOAT,
 	E_EXPECTED_INTEGER,
 	E_EXPECTED_IDENTIFIER,
+	E_MLX,
 }	t_error;
 
 typedef struct s_error_data {
