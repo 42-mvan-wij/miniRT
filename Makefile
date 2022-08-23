@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/18 18:29:08 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/08/22 16:33:19 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,11 @@ SYSTEM_LIBS += glfw3
 endif
 FRAMEWORKS += Cocoa OpenGL IOKit
 
-HEADERS +=
+HEADERS += src/input/input.h src/structs.h src/input/input_structs.h src/utils/error_structs.h src/utils/utils.h
 
 INCLUDE_HEADERS := $(dir $(LIBFT))/libft.h $(dir $(MLX42))/include/MLX42/MLX42.h
 
-SOURCES += test.c
+SOURCES += src/test.c src/input/parse_scene.c src/utils/error.c
 
 ################################################################################
 

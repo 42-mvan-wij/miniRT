@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/18 15:32:38 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/22 18:13:26 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <memory.h>
+
+#include "libft.h"
+#include "structs.h"
+#include "input/input.h"
+#include "utils/utils.h"
+
 #define WIDTH 256
 #define HEIGHT 256
 
@@ -37,10 +43,33 @@ void	hook(void *param)
 		g_img->instances[0].x += 5;
 }
 
+void	print_error(void)
+{
+	const t_error_data	error = rt_get_error_data();
+	const char			*error_texts[] = {
+	[E_NO_ERROR] = "lol, get rekt",
+	[E_OPEN] = "Could not open file: ",
+	[E_MALLOC] = "Malloc failed",
+	[E_GNL] = "Failed to get next line",
+	[E_EXPECTED_FLOAT] = "Expected float",
+	[E_EXPECTED_INTEGER] = "Expected integer",
+	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
+	};
+
+	ft_putstr_fd((char *)error_texts[error.error], STDOUT_FILENO);
+	ft_putendl_fd((char *)error.data_text, STDOUT_FILENO);
+}
+
 int32_t	main(void)
 {
 	mlx_t	*mlx;
+	t_scene	scene;
 
+	if (parse_scene("test.rt", &scene) != OK)
+	{
+		print_error();
+		return (EXIT_FAILURE);
+	}
 	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 	if (!mlx)
 		exit(EXIT_FAILURE);
