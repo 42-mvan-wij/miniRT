@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/22 16:33:19 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/08/23 14:18:39 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFLAGS		+= -Wall -Wextra -Werror -O3 $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsan
 ################################################################################
 
 USER_LIBS += $(LIBFT) $(MLX42)
-ifneq ($(or $(if ($(shell test -e $$(which pkg-config)),),,DOESNT EXIST), $(if ($(shell pkg-config --exists --print-errors glfw3 2>&1),),,DOESNT EXIST)),) # if pkg-config is installed, and it can find glfw3, use it
+ifeq ($(and $(shell which pkg-config),$(if $(shell pkg-config --exists --print-errors glfw3 2>&1),,yes)),yes) # if pkg-config is installed, and it can find glfw3, use it
 LIB_DIRS += $(shell pkg-config --libs-only-L glfw3)
 LIB_LOADS += $(shell pkg-config --libs-only-l glfw3)
 else
