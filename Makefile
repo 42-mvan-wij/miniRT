@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/23 14:18:39 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/08/24 16:56:05 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,11 @@ SYSTEM_LIBS += glfw3
 endif
 FRAMEWORKS += Cocoa OpenGL IOKit
 
-HEADERS += src/input/input.h src/structs.h src/input/input_structs.h src/utils/error_structs.h src/utils/utils.h
+HEADERS += src/input/input.h src/structs.h src/input/input_structs.h src/utils/error_structs.h src/utils/utils.h src/render/render_structs.h src/render/render.h
 
 INCLUDE_HEADERS := $(dir $(LIBFT))/libft.h $(dir $(MLX42))/include/MLX42/MLX42.h
 
-SOURCES += src/test.c src/input/parse_scene.c src/utils/error.c
+SOURCES += src/test.c src/input/parse_scene.c src/utils/error.c src/render/render.c
 
 ################################################################################
 
@@ -46,7 +46,10 @@ NAME	:= $(NAME_BONUS)
 HEADERS +=
 SOURCES	+=
 CFLAGS	+= -DBONUS
+endif
 
+ifdef DEBUG
+CFLAGS	+= -g3 -O0 -DDEBUG
 endif
 
 ################################################################################

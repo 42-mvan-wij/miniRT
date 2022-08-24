@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/23 15:19:16 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/24 14:29:05 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static t_status	get_type(char *line, t_object_type *type)
 	else if (is_type(line, "cy"))
 		*type = CYLINDER;
 	else
-		return (rt_set_error(E_EXPECTED_IDENTIFIER));
+		return (rt_set_error(E_EXPECTED_IDENTIFIER, NULL));
 	return (OK);
 }
 
