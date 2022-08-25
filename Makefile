@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/24 16:56:05 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/08/25 18:11:40 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT		:= libft/libft.a
 MLX42		:= MLX42/libmlx42.a
 
 CC			:= cc
-CFLAGS		+= -Wall -Wextra -Werror -O3 $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsanitize=address -g3)
+CFLAGS		+= -Wall -Wextra -Werror $(if $(DEBUG), -g3) $(if $(SANITIZE), -fsanitize=address -g3)
 
 ################################################################################
 
@@ -49,7 +49,7 @@ CFLAGS	+= -DBONUS
 endif
 
 ifdef DEBUG
-CFLAGS	+= -g3 -O0 -DDEBUG
+CFLAGS	+= -g3 -DDEBUG
 endif
 
 ################################################################################

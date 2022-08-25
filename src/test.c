@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/24 17:05:49 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/25 18:01:32 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,14 @@ void	add_plane(t_shape_list **list, t_vec3 pos, t_vec3 normal, int32_t rgb)
 	*list = new_list;
 }
 
-void	add_cylinder(t_shape_list **list, t_vec3 pos, t_vec3 normal, int32_t rgb)
+void	add_cylinder(t_shape_list **list, t_vec3 pos, t_vec3 normal, long double height, long double radius, int32_t rgb)
 {
 	t_cylinder	cylinder = {
 		.coord = pos,
 		.norm = normal,
 		.rgb = rgb,
+		.height = height,
+		.radius = radius,
 	};
 	t_shape_list	*new_list = malloc(sizeof(t_shape_list));
 	new_list->shape.type = CYLINDER;
@@ -136,7 +138,9 @@ void	load_scene(t_scene *scene)
 	scene->light.rgb = 0;
 	scene->objects = NULL;
 	add_sphere(&scene->objects, vec3(0, 0, 3), 1, rgb(255, 0, 0));
-	add_plane(&scene->objects, vec3(0, 0, 3), vec3(0, 1, 0), rgb(0, 255, 0));
+	// add_sphere(&scene->objects, vec3(1.5, 0, 3), 1, rgb(0, 0, 255));
+	add_cylinder(&scene->objects, vec3(1.5, 0, 3), vec3(0, 1, 0), 2, 1, rgb(0, 0, 255));
+	add_plane(&scene->objects, vec3(0, 0.5, 3), vec3(0, 1, 0), rgb(0, 255, 0));
 }
 
 int32_t	main(void)
