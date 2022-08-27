@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 13:57:53 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 14:00:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "libft.h"
 #include "input/input.h"
 #include "input/input_structs.h"
-#include "input/elements/elements.h"
 #include <stdlib.h>
 #include <fcntl.h>
 
@@ -45,7 +44,6 @@ t_status	parse_scene_line(char *line, t_scene *scene)
 	return (OK);
 }
 
-// TEMP_COMMENT: parses the file line by line
 t_status	parse_scene(char *scene_path, t_scene *scene)
 {
 	int		fd;
