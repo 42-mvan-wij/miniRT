@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/23 15:41:43 by rvan-duy      ########   odam.nl          #
+#    Updated: 2022/08/27 12:41:38 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,10 @@ SYSTEM_LIBS += glfw3
 endif
 FRAMEWORKS += Cocoa OpenGL IOKit
 
-HEADERS +=	src/input/input.h \
-			src/structs.h \
+HEADERS +=	src/structs.h \
+			src/input/input.h \
 			src/input/input_structs.h \
+			src/input/elements/elements.h \
 			src/utils/error_structs.h \
 			src/utils/utils.h
 
@@ -44,8 +45,10 @@ INCLUDE_HEADERS := $(dir $(LIBFT))/libft.h $(dir $(MLX42))/include/MLX42/MLX42.h
 SOURCES +=	src/test.c \
 			src/input/parse_scene.c \
 			src/utils/error.c \
-			src/input/parse_type_advance.c \
-			src/input/parse_int_field_advance.c
+			src/input/fields/parse_type_advance.c \
+			src/input/fields/parse_int_field_advance.c \
+			src/input/fields/parse_float_field_advance.c \
+			src/input/elements/parse_ambient_light.c
 
 ################################################################################
 
