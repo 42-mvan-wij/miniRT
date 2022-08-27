@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 12:50:03 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 13:38:30 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	print_error(void)
 	[E_GNL] = "Failed to get next line",
 	[E_EXPECTED_FLOAT] = "Expected float",
 	[E_EXPECTED_INTEGER] = "Expected integer",
+	[E_EXPECTED_RGB_VALUE] = "Expected valid RGB value (0-255)",
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
 	};
 
