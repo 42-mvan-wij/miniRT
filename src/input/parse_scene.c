@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 14:00:40 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 14:09:13 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-typedef t_status	(*t_parse_fn)(t_scene *, char **);
+typedef t_status	(*t_parse_fn)(char **, t_scene *);
 
-static t_status	parse_element(t_object_type type, t_scene *scene, char **line)
+static t_status	parse_element(t_object_type type, char **line, t_scene *scene)
 {
 	static const t_parse_fn	jump_table[] = {
 	[AMBIENT_LIGHT] = &parse_ambient_light,
 	};
 
-	return (jump_table[type](scene, line));
+	return (jump_table[type](line, scene));
 }
 
 t_status	parse_scene_line(char *line, t_scene *scene)
@@ -39,7 +39,7 @@ t_status	parse_scene_line(char *line, t_scene *scene)
 		return (OK);
 	if (parse_type(&line, &type) != OK)
 		return (FAIL);
-	if (parse_element(type, scene, &line) != OK)
+	if (parse_element(type, &line, scene) != OK)
 		return (FAIL);
 	return (OK);
 }
