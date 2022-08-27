@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_type_advance.c                               :+:    :+:            */
+/*   parse_type.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -44,7 +44,7 @@ static t_status	get_type(char *line, t_object_type *type)
 	return (OK);
 }
 
-t_status	parse_type_advance(char **line, t_object_type *type)
+t_status	parse_type(char **line, t_object_type *type)
 {
 	if (get_type(*line, type) != OK)
 		return (FAIL);
