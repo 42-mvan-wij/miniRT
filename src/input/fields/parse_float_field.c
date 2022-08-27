@@ -6,13 +6,18 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:43:41 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/08/27 13:55:45 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 15:19:55 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input/input_structs.h"
 #include "utils/utils.h"
 #include "libft.h"
+
+static int is_space_or_comma(int c)
+{
+	return ((c >= '\t' && c <= '\r') || c == ' ' || c == ',');
+}
 
 static void	rt_atodl_strict_skipper(char *str, size_t *skip, size_t *non_digits)
 {
@@ -46,7 +51,7 @@ static t_status	parse_float_advance(char **line, long double *f)
 	skipped = 0;
 	non_digits = 0;
 	rt_atodl_strict_skipper(*line, &skipped, &non_digits);
-	if (skipped == non_digits || (!ft_isspace((*line)[skipped]) \
+	if (skipped == non_digits || (!is_space_or_comma((*line)[skipped]) \
 	&& (*line)[skipped] != '\0'))
 		return (rt_set_error(E_EXPECTED_FLOAT, NULL));
 	*f = ft_atodl(*line);
