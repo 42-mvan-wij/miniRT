@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:47:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 15:06:55 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 15:26:33 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_status    parse_vec_field(char **line, t_vec3 *vec);
 // elements
 t_status	parse_ambient_light(char **line, t_scene *scene);
 t_status    parse_camera(char **line, t_scene *scene);
+t_status    parse_light(char **line, t_scene *scene);
 
 #endif

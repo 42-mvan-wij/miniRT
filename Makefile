@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/27 15:05:46 by rvan-duy      ########   odam.nl          #
+#    Updated: 2022/08/27 15:30:36 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SOURCES +=	src/test.c \
 			src/input/fields/parse_rgb_field.c \
 			src/input/fields/parse_vec_field.c \
 			src/input/elements/parse_ambient_light.c \
-			src/input/elements/parse_camera.c
+			src/input/elements/parse_camera.c \
+			src/input/elements/parse_light.c
 
 ################################################################################
 
