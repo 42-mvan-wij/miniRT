@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   part_float_field_advance.c                         :+:    :+:            */
+/*   parse_float_field.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:43:41 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/08/23 15:44:33 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 13:55:45 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_status	parse_float_advance(char **line, long double *f)
 	return (OK);
 }
 
-t_status	parse_float_field_advance(char **line, long double *f)
+t_status	parse_float_field(char **line, long double *f)
 {
 	if (parse_float_advance(line, f) != OK)
 		return (FAIL);
