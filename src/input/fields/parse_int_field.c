@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_int_field_advance.c                          :+:    :+:            */
+/*   parse_int_field.c                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -35,7 +35,7 @@ static void	rt_atoi_strict_skipper(char *str, size_t *skip, size_t *non_digits)
 		(*skip)++;
 }
 
-t_status	parse_int_field_advance(char **line, int *i)
+t_status	parse_int_field(char **line, int *i)
 {
 	size_t	skipped;
 	size_t	non_digits;

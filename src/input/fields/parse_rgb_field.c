@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/27 13:28:26 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/08/27 13:52:36 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 13:56:54 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ t_status    parse_rgb_field(char **line, int *rgb)
 	int green;
 	int blue;
 
-	if (parse_int_field_advance(line, &red) != OK)
+	if (parse_int_field(line, &red) != OK)
 		return (FAIL);
 	(*line)++;
-	if (parse_int_field_advance(line, &green) != OK)
+	if (parse_int_field(line, &green) != OK)
 		return (FAIL);
 	(*line)++;
-	if (parse_int_field_advance(line, &blue) != OK)
+	if (parse_int_field(line, &blue) != OK)
 		return (FAIL);
     if (red < 0 || red > 255 || \
         green < 0 || green > 255 || \

@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/27 13:54:50 by rvan-duy      ########   odam.nl          #
+#    Updated: 2022/08/27 13:56:35 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SOURCES +=	src/test.c \
 			src/input/parse_scene.c \
 			src/utils/error.c \
 			src/input/fields/parse_type_advance.c \
-			src/input/fields/parse_int_field_advance.c \
+			src/input/fields/parse_int_field.c \
 			src/input/fields/parse_float_field.c \
 			src/input/fields/parse_rgb_field.c \
 			src/input/elements/parse_ambient_light.c
