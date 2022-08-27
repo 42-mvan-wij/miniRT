@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/27 13:57:17 by rvan-duy      ########   odam.nl          #
+#    Updated: 2022/08/27 14:06:02 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ FRAMEWORKS += Cocoa OpenGL IOKit
 HEADERS +=	src/structs.h \
 			src/input/input.h \
 			src/input/input_structs.h \
-			src/input/elements/elements.h \
 			src/utils/error_structs.h \
 			src/utils/utils.h
 
