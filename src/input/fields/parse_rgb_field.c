@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/27 13:28:26 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/08/27 14:11:20 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/08/27 14:14:23 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_status    parse_rgb_field(char **line, int *rgb)
     if (red < 0 || red > 255 || \
         green < 0 || green > 255 || \
         blue < 0 || blue > 255)
-        return (rt_set_error(E_EXPECTED_RGB_VALUE, NULL));
+        return (rt_set_error(E_EXPECTED_INTEGER, " in range [0 - 255]"));
 	*rgb = (red << 16 | green << 8 | blue);
     return (OK);
 }
