@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:12:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/29 11:27:03 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/29 18:05:02 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "structs.h"
 #include <math.h>
 #include <stdio.h> // FIXME: TMP
+
+typedef uint32_t	t_color;
 
 typedef struct s_ray {
 	t_vec3	dir;
@@ -162,7 +164,7 @@ bool	almost_equal(long double a, long double b)
 	long double	diff;
 
 	diff = a - b;
-	return (diff <= __DBL_EPSILON__ && diff >= -__DBL_EPSILON__);
+	return (diff <= __DBL_EPSILON__ * 10 && diff >= -__DBL_EPSILON__ * 10);
 }
 
 void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
@@ -192,18 +194,41 @@ void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
 
 #define MAX_BOUNCES 8
 
-int	vec2color(t_vec3 v)
+t_color	vec2color(t_vec3 v)
 {
 	uint8_t	r;
 	uint8_t	g;
 	uint8_t	b;
 	uint8_t	a;
 
-	r = v.x * 255;
-	g = v.y * 255;
-	b = v.z * 255;
+	if (v.x > 1)
+		r = 255;
+	else if (v.x < 0)
+		r = 0;
+	else
+		r = v.x * 255;
+	if (v.y > 1)
+		g = 255;
+	else if (v.y < 0)
+		g = 0;
+	else
+		g = v.y * 255;
+	if (v.z > 1)
+		b = 255;
+	else if (v.z < 0)
+		b = 0;
+	else
+		b = v.z * 255;
 	a = 255;
 	return (r << 24 | g << 16 | b << 8 | a << 0);
+}
+
+t_vec3	color2vec(t_color c)
+{
+	return (scale(vec3(
+				(c >> 24) & 0xFF,
+				(c >> 16) & 0xFF,
+				(c >> 8) & 0xFF), 1.0 / 255.0));
 }
 
 typedef struct s_rayhit {
@@ -244,7 +269,7 @@ bool	intersect_sphere_comp(t_ray ray, t_vec3 origin, long double radius, long do
 
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
 // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
-void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_sphere *sphere)
+void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_sphere *sphere, bool use_epsilon)
 {
 	long double	t[2];
 	long double	tt;
@@ -252,9 +277,9 @@ void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_sphere *sphere)
 	if (!intersect_sphere_comp(ray, sphere->coord, sphere->radius, t))
 		return ;
 	tt = t[0];
-	if (tt < 0)
+	if (tt < 0 || (use_epsilon && almost_equal(tt, 0)))
 		tt = t[1];
-	if (tt >= best_hit->distance)
+	if (tt >= best_hit->distance || (use_epsilon && almost_equal(tt, 0)))
 		return ;
 	best_hit->distance = tt;
 	best_hit->normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), sphere->coord));
@@ -262,18 +287,21 @@ void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_sphere *sphere)
 	best_hit->sphere = sphere;
 }
 
-void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_plane *plane)
+void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_plane *plane, bool use_epsilon)
 {
-	const long double volatile	a = dot(ray.dir, plane->norm);
+	const long double	a = dot(ray.dir, plane->norm);
 	double				t;
 
 	if (almost_equal(a, 0))
 		return ;
 	t = dot(plane->norm, sub(plane->coord, ray.origin)) / a;
-	if (t < 0 || t >= best_hit->distance)
+	if (t < 0 || t >= best_hit->distance || (use_epsilon && almost_equal(t, 0)))
 		return ;
 	best_hit->distance = t;
-	best_hit->normal = plane->norm;
+	// if (a >= 0)
+	// 	best_hit->normal = scale(plane->norm, -1);
+	// else
+		best_hit->normal = plane->norm;
 	best_hit->type = PLANE;
 	best_hit->plane = plane;
 }
@@ -327,7 +355,7 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	return (out_ray);
 }
 
-void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder)
+void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder, bool use_epsilon)
 {
 	t_ray		pers_ray;
 	t_ray		flat_ray;
@@ -341,10 +369,10 @@ void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder)
 	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), cylinder->radius, t))
 		return ;
 	tt = t[0];
-	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2)
+	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2 || (use_epsilon && almost_equal(tt, 0)))
 	{
 		tt = t[1];
-		if (pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2)
+		if (pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2 || (use_epsilon && almost_equal(tt, 0)))
 			return ;
 	}
 	if (tt >= best_hit->distance)
@@ -355,27 +383,81 @@ void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder)
 	best_hit->cylinder = cylinder;
 }
 
-void	intersect(t_ray ray, t_rayhit *best_hit, t_object *shape)
+void	intersect(t_ray ray, t_rayhit *best_hit, t_object *shape, bool use_epsilon)
 {
 	if (shape->type == SPHERE)
-		intersect_sphere(ray, best_hit, &shape->sphere);
+		intersect_sphere(ray, best_hit, &shape->sphere, use_epsilon);
 	if (shape->type == PLANE)
-		intersect_plane(ray, best_hit, &shape->plane);
+		intersect_plane(ray, best_hit, &shape->plane, use_epsilon);
 	if (shape->type == CYLINDER)
-		intersect_cylinder(ray, best_hit, &shape->cylinder);
+		intersect_cylinder(ray, best_hit, &shape->cylinder, use_epsilon);
 }
 
-t_rayhit	trace(t_ray ray, t_shape_list *shapes)
+t_rayhit	trace(t_ray ray, t_shape_list *shapes, bool use_epsilon)
 {
 	t_rayhit	best_hit;
 
 	init_rayhit(&best_hit);
 	while (shapes != NULL)
 	{
-		intersect(ray, &best_hit, &shapes->shape);
+		intersect(ray, &best_hit, &shapes->shape, use_epsilon);
 		shapes = shapes->next;
 	}
 	return (best_hit);
+}
+
+t_vec3	scale_color(t_vec3 color1, t_vec3 color2)
+{
+	return (vec3(
+			color1.x * color2.x,
+			color1.y * color2.y,
+			color1.z * color2.z));
+}
+
+t_vec3	get_hit_color(t_rayhit hit)
+{
+	if (hit.type == SPHERE)
+		return (color2vec(hit.sphere->rgb));
+	if (hit.type == PLANE)
+		return (color2vec(hit.plane->rgb));
+	if (hit.type == CYLINDER)
+		return (color2vec(hit.cylinder->rgb));
+	return (vec3(0, 0, 0));
+}
+
+t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
+{
+	(void)rt_data;
+	(void)ray;
+	if (hit.distance >= INFINITY)
+		return (color);
+	// color.x = fabsl(hit.normal.x);
+	// color.y = fabsl(hit.normal.y);
+	// color.z = fabsl(hit.normal.z);
+	t_ray	light_ray;
+	t_vec3	diff;
+
+	light_ray.origin = add(ray.origin, scale(ray.dir, hit.distance));
+	diff = sub(rt_data->scene.light.coord, light_ray.origin);
+	light_ray.dir = normalize(diff);
+	t_rayhit new_hit = trace(light_ray, rt_data->scene.objects, true);
+	(void)new_hit;
+	if (new_hit.distance * new_hit.distance >= mag2(diff))
+	{
+		long double cos_a = dot(light_ray.dir, hit.normal);
+		t_vec3 effect = scale(scale(color2vec(rt_data->scene.light.rgb), cos_a), mag2(diff));
+		long double mattness = 1; // kappa * dot(normal, ray.dir);
+		// glossyness;
+		color = add(color,
+			scale(scale_color(
+				scale(
+					scale(effect, mattness), 1.0 / (hit.distance * hit.distance)
+				), get_hit_color(hit)
+			), rt_data->scene.light.brightness)
+		);
+	}
+	color = add(color, scale(scale_color(color2vec(rt_data->scene.ambient.rgb), get_hit_color(hit)), rt_data->scene.ambient.ratio));
+	return (color);
 }
 
 void	render_line(t_rt_data *rt_data, int y)
@@ -385,38 +467,23 @@ void	render_line(t_rt_data *rt_data, int y)
 	int			i;
 	t_ray		ray;
 	t_rayhit	hit;
-	int			final_color;
 
 	x = 0;
 	while (x < rt_data->width)
 	{
 		set_ray(&ray, x, y, rt_data);
-		final_color = 0x000000FF;
-		// color = vec3(0, 0, 0);
+		color = vec3(0, 0, 0);
 		i = 0;
+		if (y == 133 && x == 0)
+			hit.distance = 2;
 		while (i < MAX_BOUNCES)
 		{
-			hit = trace(ray, rt_data->scene.objects);
-			// printf("type: %i\n", hit.type);
-			if (hit.distance != INFINITY)
-			{
-				// printf("hit something\n");
-				// (void)color;
-				// if (hit.type == SPHERE)
-				// 	final_color = hit.sphere->rgb;
-				// if (hit.type == PLANE)
-				// 	final_color = hit.plane->rgb;
-				// if (hit.type == CYLINDER)
-				// 	final_color = hit.cylinder->rgb;
-				color.x = fabsl(hit.normal.x);
-				color.y = fabsl(hit.normal.y);
-				color.z = fabsl(hit.normal.z);
-				final_color = vec2color(color);
-			}
+			hit = trace(ray, rt_data->scene.objects, false);
+			color = adjust_color(color, hit, ray, rt_data);
 			i++;
 			break;
 		}
-		mlx_put_pixel(rt_data->image, x, y, final_color);
+		mlx_put_pixel(rt_data->image, x, y, vec2color(color));
 		x++;
 	}
 }
