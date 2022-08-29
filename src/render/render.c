@@ -181,7 +181,7 @@ void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
 		right = vec3(1, 0, 0);
 	else
 		right = cross(vec3(0, 1, 0), rt_data->scene.camera.norm);
-	down = cross(rt_data->scene.camera.norm, right);
+	down = cross(right, rt_data->scene.camera.norm);
 	ray->dir = normalize(add(add(
 					scale(right, px),
 					scale(down, py)),
