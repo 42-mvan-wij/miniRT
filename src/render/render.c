@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:12:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/25 18:52:48 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/29 11:27:03 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,7 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	}
 	out_ray.rgb_energy = ray.rgb_energy; // not really needed
 	out_ray.dir = transform(ray.dir, m);
-	out_ray.origin = transform(sub(ray.dir, cylinder->coord), m);
+	out_ray.origin = transform(sub(ray.origin, cylinder->coord), m);
 	return (out_ray);
 }
 
