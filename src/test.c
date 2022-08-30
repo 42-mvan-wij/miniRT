@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/29 17:21:42 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/30 15:51:51 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,48 @@ void	loop_hook(void *param)
 		rt_data->scene.camera.coord.y += 0.1;
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_LEFT_SHIFT) || mlx_is_key_down(rt_data->mlx, MLX_KEY_RIGHT_SHIFT))
 		rt_data->scene.camera.coord.y -= 0.1;
-	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_W) || mlx_is_key_down(rt_data->mlx, MLX_KEY_UP))
-		rt_data->scene.camera.coord.z += 0.1;
-	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_S) || mlx_is_key_down(rt_data->mlx, MLX_KEY_DOWN))
-		rt_data->scene.camera.coord.z -= 0.1;
-	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_D) || mlx_is_key_down(rt_data->mlx, MLX_KEY_RIGHT))
-		rt_data->scene.camera.coord.x += 0.1;
-	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_A) || mlx_is_key_down(rt_data->mlx, MLX_KEY_LEFT))
-		rt_data->scene.camera.coord.x -= 0.1;
-	if (rt_data->render_next)
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_W))
 	{
-		rt_data->render_next = false;
-		render_frame(rt_data);
+		t_vec3	forward = cross(cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm)), vec3(0, 1, 0));
+		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(forward, 0.1));
 	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_S))
+	{
+		t_vec3	forward = cross(cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm)), vec3(0, 1, 0));
+		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(forward, -0.1));
+	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_D))
+	{
+		t_vec3	right = cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm));
+		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(right, 0.1));
+	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_A))
+	{
+		t_vec3	right = cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm));
+		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(right, -0.1));
+	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_UP))
+	{
+		rt_data->scene.camera.norm = normalize(rot(rt_data->scene.camera.norm, cross(vec3(0, 1, 0), rt_data->scene.camera.norm), -0.1));
+		// rt_data->scene.camera.norm
+	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_DOWN))
+	{
+		rt_data->scene.camera.norm = normalize(rot(rt_data->scene.camera.norm, cross(vec3(0, 1, 0), rt_data->scene.camera.norm), 0.1));
+		// rt_data->scene.camera.norm
+	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_LEFT))
+	{
+		t_matrix m = matrix_from_vecs(vec3(cosl(-0.1), 0, sinl(-0.1)), vec3(0, 1, 0), vec3(-sinl(-0.1), 0, cosl(-0.1)));
+		rt_data->scene.camera.norm = normalize(transform(rt_data->scene.camera.norm, m));
+	}
+	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_RIGHT))
+	{
+		t_matrix m = matrix_from_vecs(vec3(cosl(0.1), 0, sinl(0.1)), vec3(0, 1, 0), vec3(-sinl(0.1), 0, cosl(0.1)));
+		rt_data->scene.camera.norm = normalize(transform(rt_data->scene.camera.norm, m));
+	}
+	rt_data->render_next = false;
+	render_frame(rt_data);
 }
 
 void	key_hook(mlx_key_data_t keydata, void *param)
@@ -133,12 +162,12 @@ void	load_scene(t_scene *scene)
 	scene->camera.coord = vec3(0, 0, 0);
 	scene->camera.fov = 90;
 	scene->camera.norm = vec3(0, 0, 1);
-	scene->light.brightness = 0.4;
+	scene->light.brightness = 1;
 	scene->light.coord = vec3(0, 0, 0);
 	scene->light.rgb = rgb(255, 255, 255);
 	scene->objects = NULL;
 	add_sphere(&scene->objects, vec3(0, 0, 3), 1, rgb(255, 0, 0));
-	// add_sphere(&scene->objects, vec3(1.5, 0, 3), 1, rgb(0, 0, 255));
+	// add_sphere(&scene->objects, vec3(1.5, 0, -3), 1, rgb(0, 0, 255));
 	add_cylinder(&scene->objects, vec3(1.5, 0, 3), vec3(0, 1, 0), 2, 1, rgb(0, 0, 255));
 	add_plane(&scene->objects, vec3(0, -0.5, 3), vec3(0, 1, 0), rgb(0, 255, 0));
 }
