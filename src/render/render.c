@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:12:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/29 18:05:02 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/30 16:11:11 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ typedef struct s_ray {
 	t_vec3	origin;
 	t_vec3	rgb_energy;
 }	t_ray;
-
-typedef struct s_matrix {
-	long double	data[3 * 3];
-}	t_matrix;
 
 t_vec3	vec3(long double x, long double y, long double z)
 {
@@ -159,6 +155,16 @@ t_vec3	transform(t_vec3 v, t_matrix m)
 			+ v.z * m.data[2 + 2 * 3]));
 }
 
+t_vec3	rot(t_vec3 v, t_vec3 axis, long double angle)
+{
+	const long double	cos_a = cosl(angle);
+
+	return (add(add(
+				scale(axis, (1 - cos_a) * dot(v, axis)),
+				scale(v, cos_a)),
+			scale(cross(axis, v), sinl(angle))));
+}
+
 bool	almost_equal(long double a, long double b)
 {
 	long double	diff;
@@ -169,25 +175,67 @@ bool	almost_equal(long double a, long double b)
 
 void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
 {
-	long double	scalar;
-	t_vec3		right;
-	t_vec3		down;
-	double		px;
-	double		py;
+	// long double	scalar;
+	// t_vec3		right;
+	// t_vec3		down;
+	// double		px;
+	// double		py;
 
-	scalar = tan(rt_data->scene.camera.fov * 0.5);
-	px = (2 * x + 1 - rt_data->width) * scalar;
-	py = (2 * y + 1 - rt_data->height) * scalar;
-	if (almost_equal(rt_data->scene.camera.norm.x, 0) \
-	&& almost_equal(rt_data->scene.camera.norm.z, 0))
+	// scalar = tan(rt_data->scene.camera.fov * 0.5);
+	// px = (2 * x + 1 - rt_data->width) * scalar;
+	// py = (2 * y + 1 - rt_data->height) * scalar;
+	// if (almost_equal(rt_data->scene.camera.norm.x, 0) \
+	// && almost_equal(rt_data->scene.camera.norm.z, 0))
+	// 	right = vec3(1, 0, 0);
+	// else
+	// 	right = cross(vec3(0, 1, 0), rt_data->scene.camera.norm);
+	// down = cross(right, rt_data->scene.camera.norm);
+	// ray->dir = normalize(add(add(
+	// 				scale(right, px),
+	// 				scale(down, py)),
+	// 			scale(rt_data->scene.camera.norm, rt_data->height)));
+	// ray->origin = rt_data->scene.camera.coord;
+	// ray->rgb_energy = vec3(1, 1, 1);
+
+
+
+
+	// t_vec3	forward = rt_data->scene.camera.norm;
+	// t_vec3	right;
+	// if (almost_equal(rt_data->scene.camera.norm.x, 0) \
+	// && almost_equal(rt_data->scene.camera.norm.z, 0))
+	// 	right = vec3(1, 0, 0);
+	// else
+	// 	right = cross(forward, vec3(0, 1, 0));
+	// long double scalar = tanl(rt_data->scene.camera.fov * 0.5 / 180.0 * M_PI);
+	// long double aspect = width / height;
+	// t_vec3	up = cross(right, forward);
+	// // 0 => (-width + 1) / 2
+	// // width - 1 => (width + 1) / 2
+	// float xx = x - (width + 1) / 2;
+	// float yy = y - (height + 1) / 2;
+	// ray->dir = normalize();
+
+
+	unsigned width = rt_data->width, height = rt_data->height;
+	float inv_width = 1.0 / (long double)width, inv_height = 1.0 / (long double)height;
+	float fov = rt_data->scene.camera.fov;
+	float aspect_ratio = (long double)width / (long double)height;
+	float angle = tanl(M_PI * 0.5 * fov / 180.0);
+
+	float xx = (2 * ((x + 0.5) * inv_width) - 1) * angle * aspect_ratio;
+	float yy = (1 - 2 * ((y + 0.5) * inv_height)) * angle;
+	t_vec3	right;
+	if (almost_equal(rt_data->scene.camera.norm.y, 1))
 		right = vec3(1, 0, 0);
 	else
 		right = cross(vec3(0, 1, 0), rt_data->scene.camera.norm);
-	down = cross(right, rt_data->scene.camera.norm);
-	ray->dir = normalize(add(add(
-					scale(right, px),
-					scale(down, py)),
-				scale(rt_data->scene.camera.norm, rt_data->height)));
+	t_vec3	up = cross(rt_data->scene.camera.norm, right);
+	// ray->dir = normalize(vec3(xx, yy, 1));
+	ray->dir = normalize(add(rt_data->scene.camera.norm, add(
+		scale(up, yy),
+		scale(right, xx)
+	)));
 	ray->origin = rt_data->scene.camera.coord;
 	ray->rgb_energy = vec3(1, 1, 1);
 }
@@ -364,6 +412,7 @@ void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder, boo
 
 	pers_ray = in_cylinder_perspective(ray, cylinder);
 	flat_ray.origin = vec3(pers_ray.origin.x, 0, pers_ray.origin.z);
+	// flat_ray.dir = cross(vec3(0, 1, 0), cross(pers_ray.dir, vec3(0, 1, 0)));
 	flat_ray.dir = normalize(vec3(pers_ray.dir.x, 0, pers_ray.dir.z));
 	flat_ray.rgb_energy = ray.rgb_energy; // not really needed
 	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), cylinder->radius, t))
@@ -437,6 +486,7 @@ t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 	t_ray	light_ray;
 	t_vec3	diff;
 
+	color = add(color, scale(scale_color(color2vec(rt_data->scene.ambient.rgb), get_hit_color(hit)), rt_data->scene.ambient.ratio));
 	light_ray.origin = add(ray.origin, scale(ray.dir, hit.distance));
 	diff = sub(rt_data->scene.light.coord, light_ray.origin);
 	light_ray.dir = normalize(diff);
@@ -445,18 +495,19 @@ t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 	if (new_hit.distance * new_hit.distance >= mag2(diff))
 	{
 		long double cos_a = dot(light_ray.dir, hit.normal);
-		t_vec3 effect = scale(scale(color2vec(rt_data->scene.light.rgb), cos_a), mag2(diff));
+		if (cos_a < 0)
+			return (color);
+		t_vec3 effect = scale(scale(color2vec(rt_data->scene.light.rgb), cos_a), 1.0 / (mag(diff) + hit.distance) * (mag(diff) + hit.distance));
 		long double mattness = 1; // kappa * dot(normal, ray.dir);
 		// glossyness;
 		color = add(color,
 			scale(scale_color(
 				scale(
-					scale(effect, mattness), 1.0 / (hit.distance * hit.distance)
+					scale(effect, mattness), 1//20.0 / (hit.distance * hit.distance)
 				), get_hit_color(hit)
 			), rt_data->scene.light.brightness)
 		);
 	}
-	color = add(color, scale(scale_color(color2vec(rt_data->scene.ambient.rgb), get_hit_color(hit)), rt_data->scene.ambient.ratio));
 	return (color);
 }
 
