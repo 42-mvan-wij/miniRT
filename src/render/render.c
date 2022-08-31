@@ -412,15 +412,14 @@ void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder, boo
 
 	pers_ray = in_cylinder_perspective(ray, cylinder);
 	flat_ray.origin = vec3(pers_ray.origin.x, 0, pers_ray.origin.z);
-	// flat_ray.dir = cross(vec3(0, 1, 0), cross(pers_ray.dir, vec3(0, 1, 0)));
 	flat_ray.dir = normalize(vec3(pers_ray.dir.x, 0, pers_ray.dir.z));
 	flat_ray.rgb_energy = ray.rgb_energy; // not really needed
 	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), cylinder->radius, t))
 		return ;
-	tt = t[0];
+	tt = t[0] / dot(pers_ray.dir, flat_ray.dir);
 	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2 || (use_epsilon && almost_equal(tt, 0)))
 	{
-		tt = t[1];
+		tt = t[1] / dot(pers_ray.dir, flat_ray.dir);
 		if (pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2 || (use_epsilon && almost_equal(tt, 0)))
 			return ;
 	}
