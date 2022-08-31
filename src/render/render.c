@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:12:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/30 16:11:11 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/31 12:58:42 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,48 +175,6 @@ bool	almost_equal(long double a, long double b)
 
 void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
 {
-	// long double	scalar;
-	// t_vec3		right;
-	// t_vec3		down;
-	// double		px;
-	// double		py;
-
-	// scalar = tan(rt_data->scene.camera.fov * 0.5);
-	// px = (2 * x + 1 - rt_data->width) * scalar;
-	// py = (2 * y + 1 - rt_data->height) * scalar;
-	// if (almost_equal(rt_data->scene.camera.norm.x, 0) \
-	// && almost_equal(rt_data->scene.camera.norm.z, 0))
-	// 	right = vec3(1, 0, 0);
-	// else
-	// 	right = cross(vec3(0, 1, 0), rt_data->scene.camera.norm);
-	// down = cross(right, rt_data->scene.camera.norm);
-	// ray->dir = normalize(add(add(
-	// 				scale(right, px),
-	// 				scale(down, py)),
-	// 			scale(rt_data->scene.camera.norm, rt_data->height)));
-	// ray->origin = rt_data->scene.camera.coord;
-	// ray->rgb_energy = vec3(1, 1, 1);
-
-
-
-
-	// t_vec3	forward = rt_data->scene.camera.norm;
-	// t_vec3	right;
-	// if (almost_equal(rt_data->scene.camera.norm.x, 0) \
-	// && almost_equal(rt_data->scene.camera.norm.z, 0))
-	// 	right = vec3(1, 0, 0);
-	// else
-	// 	right = cross(forward, vec3(0, 1, 0));
-	// long double scalar = tanl(rt_data->scene.camera.fov * 0.5 / 180.0 * M_PI);
-	// long double aspect = width / height;
-	// t_vec3	up = cross(right, forward);
-	// // 0 => (-width + 1) / 2
-	// // width - 1 => (width + 1) / 2
-	// float xx = x - (width + 1) / 2;
-	// float yy = y - (height + 1) / 2;
-	// ray->dir = normalize();
-
-
 	unsigned width = rt_data->width, height = rt_data->height;
 	float inv_width = 1.0 / (long double)width, inv_height = 1.0 / (long double)height;
 	float fov = rt_data->scene.camera.fov;
@@ -239,8 +197,6 @@ void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
 	ray->origin = rt_data->scene.camera.coord;
 	ray->rgb_energy = vec3(1, 1, 1);
 }
-
-#define MAX_BOUNCES 8
 
 t_color	vec2color(t_vec3 v)
 {
@@ -282,13 +238,7 @@ t_vec3	color2vec(t_color c)
 typedef struct s_rayhit {
 	long double		distance;
 	t_vec3			normal;
-	t_object_type	type;
-	union
-	{
-		t_sphere	*sphere;
-		t_plane		*plane;
-		t_cylinder	*cylinder;
-	};
+	t_object		*shape;
 }	t_rayhit;
 
 void	init_rayhit(t_rayhit *rayhit)
@@ -317,41 +267,36 @@ bool	intersect_sphere_comp(t_ray ray, t_vec3 origin, long double radius, long do
 
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
 // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
-void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_sphere *sphere, bool use_epsilon)
+void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_object *shape)
 {
 	long double	t[2];
 	long double	tt;
 
-	if (!intersect_sphere_comp(ray, sphere->coord, sphere->radius, t))
+	if (!intersect_sphere_comp(ray, shape->sphere.coord, shape->sphere.radius, t))
 		return ;
 	tt = t[0];
-	if (tt < 0 || (use_epsilon && almost_equal(tt, 0)))
+	if (tt < 0)
 		tt = t[1];
-	if (tt >= best_hit->distance || (use_epsilon && almost_equal(tt, 0)))
+	if (tt >= best_hit->distance)
 		return ;
 	best_hit->distance = tt;
-	best_hit->normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), sphere->coord));
-	best_hit->type = SPHERE;
-	best_hit->sphere = sphere;
+	best_hit->normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.coord));
+	best_hit->shape = shape;
 }
 
-void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_plane *plane, bool use_epsilon)
+void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_object *shape)
 {
-	const long double	a = dot(ray.dir, plane->norm);
+	const long double	a = dot(ray.dir, shape->plane.norm);
 	double				t;
 
 	if (almost_equal(a, 0))
 		return ;
-	t = dot(plane->norm, sub(plane->coord, ray.origin)) / a;
-	if (t < 0 || t >= best_hit->distance || (use_epsilon && almost_equal(t, 0)))
+	t = dot(shape->plane.norm, sub(shape->plane.coord, ray.origin)) / a;
+	if (t < 0 || t >= best_hit->distance)
 		return ;
 	best_hit->distance = t;
-	// if (a >= 0)
-	// 	best_hit->normal = scale(plane->norm, -1);
-	// else
-		best_hit->normal = plane->norm;
-	best_hit->type = PLANE;
-	best_hit->plane = plane;
+	best_hit->normal = shape->plane.norm;
+	best_hit->shape = shape;
 }
 
 long double	sin_from_cos(long double cos_a)
@@ -403,52 +348,66 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	return (out_ray);
 }
 
-void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_cylinder *cylinder, bool use_epsilon)
+void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_object *shape)
 {
 	t_ray		pers_ray;
 	t_ray		flat_ray;
 	long double	t[2];
 	long double	tt;
 
-	pers_ray = in_cylinder_perspective(ray, cylinder);
+	pers_ray = in_cylinder_perspective(ray, &shape->cylinder);
 	flat_ray.origin = vec3(pers_ray.origin.x, 0, pers_ray.origin.z);
 	flat_ray.dir = normalize(vec3(pers_ray.dir.x, 0, pers_ray.dir.z));
 	flat_ray.rgb_energy = ray.rgb_energy; // not really needed
-	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), cylinder->radius, t))
+	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), shape->cylinder.radius, t))
 		return ;
 	tt = t[0] / dot(pers_ray.dir, flat_ray.dir);
-	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2 || (use_epsilon && almost_equal(tt, 0)))
+	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2)
 	{
 		tt = t[1] / dot(pers_ray.dir, flat_ray.dir);
-		if (pers_ray.dir.y * tt + pers_ray.origin.y < -cylinder->height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > cylinder->height / 2 || (use_epsilon && almost_equal(tt, 0)))
+		if (pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2)
 			return ;
 	}
 	if (tt >= best_hit->distance)
 		return ;
 	best_hit->distance = tt;
-	best_hit->normal = get_cylinder_normal(ray, cylinder, tt);
-	best_hit->type = CYLINDER;
-	best_hit->cylinder = cylinder;
+	best_hit->normal = get_cylinder_normal(ray, &shape->cylinder, tt);
+	best_hit->shape = shape;
 }
 
-void	intersect(t_ray ray, t_rayhit *best_hit, t_object *shape, bool use_epsilon)
+void	intersect(t_ray ray, t_rayhit *best_hit, t_object *shape)
 {
 	if (shape->type == SPHERE)
-		intersect_sphere(ray, best_hit, &shape->sphere, use_epsilon);
+		intersect_sphere(ray, best_hit, shape);
 	if (shape->type == PLANE)
-		intersect_plane(ray, best_hit, &shape->plane, use_epsilon);
+		intersect_plane(ray, best_hit, shape);
 	if (shape->type == CYLINDER)
-		intersect_cylinder(ray, best_hit, &shape->cylinder, use_epsilon);
+		intersect_cylinder(ray, best_hit, shape);
 }
 
-t_rayhit	trace(t_ray ray, t_shape_list *shapes, bool use_epsilon)
+bool	vec3_eq(t_vec3 v1, t_vec3 v2)
 {
+	// return (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z);
+	return (almost_equal(v1.x, v2.x) && almost_equal(v1.y, v2.y) && almost_equal(v1.z, v2.z));
+}
+
+t_rayhit	trace(t_ray ray, t_shape_list *shapes, t_rayhit *ignore)
+{
+	t_rayhit	old_hit;
 	t_rayhit	best_hit;
 
 	init_rayhit(&best_hit);
 	while (shapes != NULL)
 	{
-		intersect(ray, &best_hit, &shapes->shape, use_epsilon);
+		if (ignore != NULL && &shapes->shape == ignore->shape)
+		{
+			old_hit = best_hit;
+			intersect(ray, &best_hit, &shapes->shape);
+			if (best_hit.shape == ignore->shape && vec3_eq(best_hit.normal, ignore->normal))
+				best_hit = old_hit;
+		}
+		else
+			intersect(ray, &best_hit, &shapes->shape);
 		shapes = shapes->next;
 	}
 	return (best_hit);
@@ -462,34 +421,29 @@ t_vec3	scale_color(t_vec3 color1, t_vec3 color2)
 			color1.z * color2.z));
 }
 
-t_vec3	get_hit_color(t_rayhit hit)
+t_vec3	get_shape_color(t_object *shape)
 {
-	if (hit.type == SPHERE)
-		return (color2vec(hit.sphere->rgb));
-	if (hit.type == PLANE)
-		return (color2vec(hit.plane->rgb));
-	if (hit.type == CYLINDER)
-		return (color2vec(hit.cylinder->rgb));
+	if (shape->type == SPHERE)
+		return (color2vec(shape->sphere.rgb));
+	if (shape->type == PLANE)
+		return (color2vec(shape->plane.rgb));
+	if (shape->type == CYLINDER)
+		return (color2vec(shape->cylinder.rgb));
 	return (vec3(0, 0, 0));
 }
 
 t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 {
-	(void)rt_data;
-	(void)ray;
-	if (hit.distance >= INFINITY)
-		return (color);
-	// color.x = fabsl(hit.normal.x);
-	// color.y = fabsl(hit.normal.y);
-	// color.z = fabsl(hit.normal.z);
 	t_ray	light_ray;
 	t_vec3	diff;
 
-	color = add(color, scale(scale_color(color2vec(rt_data->scene.ambient.rgb), get_hit_color(hit)), rt_data->scene.ambient.ratio));
+	if (hit.distance >= INFINITY)
+		return (color);
+	color = add(color, scale(scale_color(color2vec(rt_data->scene.ambient.rgb), get_shape_color(hit.shape)), rt_data->scene.ambient.ratio));
 	light_ray.origin = add(ray.origin, scale(ray.dir, hit.distance));
 	diff = sub(rt_data->scene.light.coord, light_ray.origin);
 	light_ray.dir = normalize(diff);
-	t_rayhit new_hit = trace(light_ray, rt_data->scene.objects, true);
+	t_rayhit new_hit = trace(light_ray, rt_data->scene.objects, &hit);
 	(void)new_hit;
 	if (new_hit.distance * new_hit.distance >= mag2(diff))
 	{
@@ -503,49 +457,51 @@ t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 			scale(scale_color(
 				scale(
 					scale(effect, mattness), 1//20.0 / (hit.distance * hit.distance)
-				), get_hit_color(hit)
+				), get_shape_color(hit.shape)
 			), rt_data->scene.light.brightness)
 		);
 	}
 	return (color);
 }
 
-void	render_line(t_rt_data *rt_data, int y)
+#define MAX_BOUNCES 8
+
+t_color	get_pixel_color(t_rt_data *rt_data, int x, int y)
 {
-	int			x;
 	t_vec3		color;
 	int			i;
 	t_ray		ray;
 	t_rayhit	hit;
 
-	x = 0;
-	while (x < rt_data->width)
+	set_ray(&ray, x, y, rt_data);
+	color = vec3(0, 0, 0);
+	i = 0;
+	// while (i < MAX_BOUNCES)
 	{
-		set_ray(&ray, x, y, rt_data);
-		color = vec3(0, 0, 0);
-		i = 0;
-		if (y == 133 && x == 0)
-			hit.distance = 2;
-		while (i < MAX_BOUNCES)
-		{
-			hit = trace(ray, rt_data->scene.objects, false);
-			color = adjust_color(color, hit, ray, rt_data);
-			i++;
-			break;
-		}
-		mlx_put_pixel(rt_data->image, x, y, vec2color(color));
-		x++;
+		hit = trace(ray, rt_data->scene.objects, NULL);
+		// color = vec3(fabsl(hit.normal.x), fabsl(hit.normal.y), fabsl(hit.normal.z));
+		color = adjust_color(color, hit, ray, rt_data);
+		i++;
 	}
+	return (vec2color(color));
 }
 
 void	render_frame(t_rt_data *rt_data)
 {
-	int	y;
+	int		y;
+	int		x;
+	t_color	color;
 
 	y = 0;
 	while (y < rt_data->height)
 	{
-		render_line(rt_data, y);
+		x = 0;
+		while (x < rt_data->width)
+		{
+			color = get_pixel_color(rt_data, x, y);
+			mlx_put_pixel(rt_data->image, x, y, color);
+			x++;
+		}
 		y++;
 	}
 }
