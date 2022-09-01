@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/25 18:11:40 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/01 14:56:40 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,38 @@ SYSTEM_LIBS += glfw3
 endif
 FRAMEWORKS += Cocoa OpenGL IOKit
 
-HEADERS += src/input/input.h src/structs.h src/input/input_structs.h src/utils/error_structs.h src/utils/utils.h src/render/render_structs.h src/render/render.h
+HEADERS += \
+	src/input/input_structs.h			\
+	src/input/input.h					\
+	src/render/intersect/intersect.h	\
+	src/render/render_structs.h			\
+	src/render/render.h					\
+	src/utils/error_structs.h			\
+	src/utils/utils_structs.h			\
+	src/utils/utils.h					\
+	src/vec3/vec3_structs.h				\
+	src/vec3/vec3.h						\
+	src/structs.h
 
 INCLUDE_HEADERS := $(dir $(LIBFT))/libft.h $(dir $(MLX42))/include/MLX42/MLX42.h
 
-SOURCES += src/test.c src/input/parse_scene.c src/utils/error.c src/render/render.c
+SOURCES += \
+	src/input/parse_scene.c			\
+	src/render/intersect/cylinder.c	\
+	src/render/intersect/plane.c	\
+	src/render/intersect/sphere.c	\
+	src/render/intersect/trace.c	\
+	src/render/color.c				\
+	src/render/render.c				\
+	src/utils/color.c				\
+	src/utils/error.c				\
+	src/utils/misc.c				\
+	src/vec3/basic.c				\
+	src/vec3/magnitude.c			\
+	src/vec3/matrix.c				\
+	src/vec3/multiply.c				\
+	src/vec3/rotate.c				\
+	src/test.c
 
 ################################################################################
 

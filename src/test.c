@@ -6,18 +6,19 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/30 15:51:51 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/01 14:43:37 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42.h"
+#include <MLX42.h>
+#include <stdlib.h>
+#include <math.h>
 #include "libft.h"
 #include "structs.h"
 #include "input/input.h"
 #include "utils/utils.h"
 #include "render/render.h"
-#include <stdlib.h>
-#include <math.h>
+#include "vec3/vec3.h"
 
 void	loop_hook(void *param)
 {

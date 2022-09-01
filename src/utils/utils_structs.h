@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_structs.h                                   :+:    :+:            */
+/*   utils_structs.h                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/23 15:06:29 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:34:27 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 14:21:31 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:23:10 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_STRUCTS_H
-# define RENDER_STRUCTS_H
+#ifndef UTILS_STRUCTS_H
+# define UTILS_STRUCTS_H
 
-# include "vec3/vec3_structs.h"
-# include "input/input_structs.h"
+# include <stdint.h>
 
-typedef struct s_ray {
-	t_vec3	dir;
-	t_vec3	origin;
-	t_vec3	rgb_energy;
-}	t_ray;
-
-typedef struct s_rayhit {
-	long double		distance;
-	t_vec3			normal;
-	t_object		*shape;
-}	t_rayhit;
+typedef uint32_t	t_color;
 
 #endif

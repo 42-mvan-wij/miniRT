@@ -6,21 +6,16 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/24 15:47:50 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/01 14:47:30 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INPUT_STRUCTS_H
 # define INPUT_STRUCTS_H
 
+# include <MLX42.h>
 # include "libft.h"
-# include "structs.h"
-
-typedef struct s_vec3 {
-	long double	x;
-	long double	y;
-	long double	z;
-}	t_vec3;
+# include "vec3/vec3_structs.h"
 
 typedef struct s_ambient {
 	long double	ratio;

@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_structs.h                                   :+:    :+:            */
+/*   magnitude.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/23 15:06:29 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:34:27 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 13:51:15 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:40:47 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_STRUCTS_H
-# define RENDER_STRUCTS_H
+#include <math.h>
+#include "structs.h"
+#include "vec3/vec3.h"
 
-# include "vec3/vec3_structs.h"
-# include "input/input_structs.h"
+long double	mag2(t_vec3 v)
+{
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
+}
 
-typedef struct s_ray {
-	t_vec3	dir;
-	t_vec3	origin;
-	t_vec3	rgb_energy;
-}	t_ray;
+long double	mag(t_vec3 v)
+{
+	return (sqrtl(mag2(v)));
+}
 
-typedef struct s_rayhit {
-	long double		distance;
-	t_vec3			normal;
-	t_object		*shape;
-}	t_rayhit;
+long double	dist2(t_vec3 v1, t_vec3 v2)
+{
+	return (mag2(sub(v1, v2)));
+}
 
-#endif
+long double	dist(t_vec3 v1, t_vec3 v2)
+{
+	return (sqrtl(dist2(v1, v2)));
+}
+
+t_vec3	normalize(t_vec3 v)
+{
+	return (scale(v, 1 / mag(v)));
+}

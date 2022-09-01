@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_structs.h                                   :+:    :+:            */
+/*   multiply.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/23 15:06:29 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:34:27 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 13:58:02 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:19:24 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_STRUCTS_H
-# define RENDER_STRUCTS_H
+#include "structs.h"
+#include "vec3/vec3.h"
 
-# include "vec3/vec3_structs.h"
-# include "input/input_structs.h"
+// project v1 onto v2 and multiply length by length of v2, order doesn't matter
+long double	dot(t_vec3 v1, t_vec3 v2)
+{
+	return (v1.x * v2.x
+		+ v1.y * v2.y
+		+ v1.z * v2.z);
+}
 
-typedef struct s_ray {
-	t_vec3	dir;
-	t_vec3	origin;
-	t_vec3	rgb_energy;
-}	t_ray;
-
-typedef struct s_rayhit {
-	long double		distance;
-	t_vec3			normal;
-	t_object		*shape;
-}	t_rayhit;
-
-#endif
+t_vec3	cross(t_vec3 v1, t_vec3 v2)
+{
+	return (vec3(
+			v1.y * v2.z - v1.z * v2.y,
+			v1.z * v2.x - v1.x * v2.z,
+			v1.x * v2.y - v1.y * v2.x));
+}

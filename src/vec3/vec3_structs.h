@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_structs.h                                   :+:    :+:            */
+/*   vec3_structs.h                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/23 15:06:29 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:34:27 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 14:15:56 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:16:58 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_STRUCTS_H
-# define RENDER_STRUCTS_H
+#ifndef VEC3_STRUCTS_H
+# define VEC3_STRUCTS_H
 
-# include "vec3/vec3_structs.h"
-# include "input/input_structs.h"
+typedef struct s_vec3 {
+	long double	x;
+	long double	y;
+	long double	z;
+}	t_vec3;
 
-typedef struct s_ray {
-	t_vec3	dir;
-	t_vec3	origin;
-	t_vec3	rgb_energy;
-}	t_ray;
-
-typedef struct s_rayhit {
-	long double		distance;
-	t_vec3			normal;
-	t_object		*shape;
-}	t_rayhit;
+typedef struct s_matrix {
+	long double	data[3 * 3];
+}	t_matrix;
 
 #endif

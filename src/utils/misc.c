@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_structs.h                                   :+:    :+:            */
+/*   misc.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/23 15:06:29 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:34:27 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 14:00:40 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:40:27 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_STRUCTS_H
-# define RENDER_STRUCTS_H
+#include <math.h>
+#include "structs.h"
 
-# include "vec3/vec3_structs.h"
-# include "input/input_structs.h"
+long double	sin_from_cos(long double cos_a)
+{
+	return (sinl(acosl(cos_a)));
+	// return (sqrtl(1 - (cos_a * cos_a)));
+}
 
-typedef struct s_ray {
-	t_vec3	dir;
-	t_vec3	origin;
-	t_vec3	rgb_energy;
-}	t_ray;
+bool	almost_equal(long double a, long double b)
+{
+	long double	diff;
 
-typedef struct s_rayhit {
-	long double		distance;
-	t_vec3			normal;
-	t_object		*shape;
-}	t_rayhit;
-
-#endif
+	diff = a - b;
+	return (diff <= __DBL_EPSILON__ * 10 && diff >= -__DBL_EPSILON__ * 10);
+}

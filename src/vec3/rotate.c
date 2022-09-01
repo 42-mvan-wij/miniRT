@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_structs.h                                   :+:    :+:            */
+/*   rotate.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/23 15:06:29 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:34:27 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 13:57:33 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:40:55 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_STRUCTS_H
-# define RENDER_STRUCTS_H
+#include <math.h>
+#include "structs.h"
+#include "vec3/vec3.h"
 
-# include "vec3/vec3_structs.h"
-# include "input/input_structs.h"
+t_vec3	rot(t_vec3 v, t_vec3 axis, long double angle)
+{
+	const long double	cos_a = cosl(angle);
 
-typedef struct s_ray {
-	t_vec3	dir;
-	t_vec3	origin;
-	t_vec3	rgb_energy;
-}	t_ray;
-
-typedef struct s_rayhit {
-	long double		distance;
-	t_vec3			normal;
-	t_object		*shape;
-}	t_rayhit;
-
-#endif
+	return (add(add(
+				scale(axis, (1 - cos_a) * dot(v, axis)),
+				scale(v, cos_a)),
+			scale(cross(axis, v), sinl(angle))));
+}
