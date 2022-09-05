@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:01:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:39:03 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/05 12:40:39 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	return (out_ray);
 }
 
-void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_object *shape)
+void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ignore_normal)
 {
 	t_ray		pers_ray;
 	t_ray		flat_ray;
 	long double	t[2];
 	long double	tt;
+	t_vec3		normal;
 
 	pers_ray = in_cylinder_perspective(ray, &shape->cylinder);
 	flat_ray.origin = vec3(pers_ray.origin.x, 0, pers_ray.origin.z);
@@ -69,15 +70,17 @@ void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_object *shape)
 	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), shape->cylinder.radius, t))
 		return ;
 	tt = t[0] / dot(pers_ray.dir, flat_ray.dir);
-	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2)
+	normal = get_cylinder_normal(ray, &shape->cylinder, tt);
+	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2 || (ignore_normal != NULL && vec3_eq(*ignore_normal, normal)))
 	{
 		tt = t[1] / dot(pers_ray.dir, flat_ray.dir);
-		if (pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2)
+		normal = get_cylinder_normal(ray, &shape->cylinder, tt);
+		if (pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2 || (ignore_normal != NULL && vec3_eq(*ignore_normal, normal)))
 			return ;
 	}
 	if (tt >= best_hit->distance)
 		return ;
 	best_hit->distance = tt;
-	best_hit->normal = get_cylinder_normal(ray, &shape->cylinder, tt);
+	best_hit->normal = normal;
 	best_hit->shape = shape;
 }

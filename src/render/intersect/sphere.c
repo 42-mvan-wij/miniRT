@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:02:39 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:40:15 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/05 12:37:31 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,24 @@ bool	intersect_sphere_comp(t_ray ray, t_vec3 origin, long double radius, long do
 
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
 // http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
-void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_object *shape)
+void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ignore_normal)
 {
 	long double	t[2];
 	long double	tt;
+	t_vec3		normal;
 
 	if (!intersect_sphere_comp(ray, shape->sphere.coord, shape->sphere.radius, t))
 		return ;
 	tt = t[0];
-	if (tt < 0)
+	normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.coord));
+	if (tt < 0 || (ignore_normal != NULL && vec3_eq(normal, *ignore_normal)))
+	{
 		tt = t[1];
-	if (tt >= best_hit->distance)
+		normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.coord));
+	}
+	if (tt >= best_hit->distance || (ignore_normal != NULL && vec3_eq(normal, *ignore_normal)))
 		return ;
 	best_hit->distance = tt;
-	best_hit->normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.coord));
+	best_hit->normal = normal;
 	best_hit->shape = shape;
 }
