@@ -6,11 +6,12 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/06 17:47:03 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/06 18:06:45 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/06 18:25:33 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input/input.h"
+#include "utils/utils.h"
 
 // TODO: testing
 t_status	parse_sphere(char **line, t_scene *scene)
@@ -28,6 +29,6 @@ t_status	parse_sphere(char **line, t_scene *scene)
 	obj->sphere.radius /= 2;
 	if (parse_rgb_field(line, &obj->sphere.rgb) != OK)
 		return (FAIL);
-	// add to back of list
+	rt_lstadd_back(&scene->objects, obj);
 	return (OK);
 }
