@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:43:41 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/08/27 15:19:55 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/06 17:37:49 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "utils/utils.h"
 #include "libft.h"
 
-static int is_space_or_comma(int c)
+static int	is_space_or_comma(int c)
 {
 	return ((c >= '\t' && c <= '\r') || c == ' ' || c == ',');
 }

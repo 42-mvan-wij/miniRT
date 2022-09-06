@@ -14,7 +14,7 @@
 #include "utils/utils.h"
 #include "libft.h"
 
-static int is_space_or_comma(int c)
+static int	is_space_or_comma(int c)
 {
 	return ((c >= '\t' && c <= '\r') || c == ' ' || c == ',');
 }
