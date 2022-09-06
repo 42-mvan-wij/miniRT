@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 15:29:24 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/06 17:44:08 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_status	parse_element(t_object_type type, char **line, t_scene *scene)
 	[AMBIENT_LIGHT] = &parse_ambient_light,
 	[CAMERA] = &parse_camera,
 	[LIGHT] = &parse_light,
+	[SPHERE] = &parse_sphere,
 	};
 
 	return (jump_table[type](line, scene));

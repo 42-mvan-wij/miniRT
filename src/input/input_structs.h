@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/06 13:49:28 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/06 17:54:00 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_object
 		t_plane		plane;
 		t_cylinder	cylinder;
 	};
+	t_object		*next;
 }	t_object;
 
 typedef struct s_scene {
