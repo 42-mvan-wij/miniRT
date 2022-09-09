@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:47:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/09 09:55:45 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/09 09:56:31 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ t_status	parse_camera(char **line, t_scene *scene);
 t_status	parse_light(char **line, t_scene *scene);
 t_status	parse_sphere(char **line, t_scene *scene);
 t_status	parse_plane(char **line, t_scene *scene);
+t_status	parse_cylinder(char **line, t_scene *scene);
 
 #endif
