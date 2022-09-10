@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/06 17:54:00 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/10 15:29:44 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_cylinder {
 	long double	radius; // converted from diameter and height
 	int			rgb;
 }	t_cylinder;
+
+typedef struct s_object	t_object;
 
 typedef struct s_object
 {

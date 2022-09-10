@@ -6,12 +6,13 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/06 17:47:03 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/06 18:25:33 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/10 15:31:11 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input/input.h"
 #include "utils/utils.h"
+#include <stdlib.h>
 
 // TODO: testing
 t_status	parse_sphere(char **line, t_scene *scene)
