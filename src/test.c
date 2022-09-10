@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/22 18:13:26 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/08/27 14:14:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ void	print_error(void)
 	ft_putendl_fd((char *)error.data_text, STDOUT_FILENO);
 }
 
-int32_t	main(void)
+int32_t	main(int argc, char **argv)
 {
 	mlx_t	*mlx;
 	t_scene	scene;
 
-	if (parse_scene("test.rt", &scene) != OK)
+	(void)argc;
+	// TODO: check valid file
+	if (parse_scene(argv[1], &scene) != OK)
 	{
 		print_error();
 		return (EXIT_FAILURE);

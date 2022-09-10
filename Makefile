@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/08/23 14:18:39 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/10 15:57:57 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,28 @@ SYSTEM_LIBS += glfw3
 endif
 FRAMEWORKS += Cocoa OpenGL IOKit
 
-HEADERS += src/input/input.h src/structs.h src/input/input_structs.h src/utils/error_structs.h src/utils/utils.h
+HEADERS +=	src/structs.h \
+			src/input/input.h \
+			src/input/input_structs.h \
+			src/utils/error_structs.h \
+			src/utils/utils.h
 
 INCLUDE_HEADERS := $(dir $(LIBFT))/libft.h $(dir $(MLX42))/include/MLX42/MLX42.h
 
-SOURCES += src/test.c src/input/parse_scene.c src/utils/error.c
+SOURCES +=	src/test.c \
+			src/input/parse_scene.c \
+			src/utils/error.c \
+			src/utils/lst.c \
+			src/input/fields/parse_type.c \
+			src/input/fields/parse_int_field.c \
+			src/input/fields/parse_float_field.c \
+			src/input/fields/parse_rgb_field.c \
+			src/input/fields/parse_vec_field.c \
+			src/input/elements/parse_ambient_light.c \
+			src/input/elements/parse_camera.c \
+			src/input/elements/parse_light.c \
+			src/input/elements/parse_sphere.c \
+			src/input/elements/parse_plane.c
 
 ################################################################################
 
