@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/09 09:48:10 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/10 15:31:22 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/10 15:52:54 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_status	parse_plane(char **line, t_scene *scene)
 		return (rt_set_error(E_EXPECTED_FLOAT, " in range of [-1.0 - 1.0]"));
 	if (parse_rgb_field(line, &obj->plane.rgb) != OK)
 		return (FAIL);
+	obj->next = NULL;
 	rt_lstadd_back(&scene->objects, obj);
 	return (OK);
 }

@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/06 17:47:03 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/10 15:31:11 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/10 15:52:38 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_status	parse_sphere(char **line, t_scene *scene)
 	obj->sphere.radius /= 2;
 	if (parse_rgb_field(line, &obj->sphere.rgb) != OK)
 		return (FAIL);
+	obj->next = NULL;
 	rt_lstadd_back(&scene->objects, obj);
 	return (OK);
 }

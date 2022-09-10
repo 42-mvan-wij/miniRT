@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/10 15:31:54 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/10 15:53:55 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,15 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 	close(fd);
 	if (gnl < 0)
 		return (rt_set_error(E_GNL, NULL));
+	// printf("------------ SCENE ------------\n");
+	// printf("Ambient: (%Lf, %d)\n", scene->ambient.ratio, scene->ambient.rgb);
+	// printf("Camera:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->camera.coord.x, scene->camera.coord.y, scene->camera.coord.z, scene->camera.norm.x, scene->camera.norm.y, scene->camera.norm.z, scene->camera.fov);
+	// printf("Light:   ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->light.coord.x, scene->light.coord.y, scene->light.coord.z, scene->light.brightness, scene->light.rgb);
+	// while (scene->objects) {
+	// 	if (scene->objects->type == SPHERE)
+	// 		printf("sphere:  ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->objects->sphere.coord.x, scene->objects->sphere.coord.y, scene->objects->sphere.coord.z, scene->objects->sphere.radius, scene->objects->sphere.rgb);
+	// 	scene->objects = scene->objects->next;
+	// }
+	exit(200);
 	return (OK);
 }
