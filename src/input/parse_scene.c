@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/10 15:53:55 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/10 15:57:04 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 	// while (scene->objects) {
 	// 	if (scene->objects->type == SPHERE)
 	// 		printf("sphere:  ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->objects->sphere.coord.x, scene->objects->sphere.coord.y, scene->objects->sphere.coord.z, scene->objects->sphere.radius, scene->objects->sphere.rgb);
+	// 	else if (scene->objects->type == PLANE)
+	// 		printf("plane:   ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->objects->plane.coord.x, scene->objects->plane.coord.y, scene->objects->plane.coord.z, scene->objects->plane.norm.x, scene->objects->plane.norm.y, scene->objects->plane.norm.z, scene->objects->plane.rgb);
 	// 	scene->objects = scene->objects->next;
 	// }
 	exit(200);
