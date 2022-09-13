@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:55:59 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_status	parse_scene_line(char *line, t_scene *scene)
 
 	while (ft_isspace(*line))
 		line++;
-	if (line[0] == '\0')
+	if (line[0] == '\0' || line[0] == '#')
 		return (OK);
 	if (parse_type(&line, &type) != OK)
 		return (FAIL);
