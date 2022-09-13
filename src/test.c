@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:04:12 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:48:23 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,28 @@ void	loop_hook(void *param)
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(rt_data->mlx);
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_SPACE))
-		rt_data->scene.camera.coord.y += 0.1;
+		rt_data->scene.camera.pos.y += 0.1;
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_LEFT_SHIFT) || mlx_is_key_down(rt_data->mlx, MLX_KEY_RIGHT_SHIFT))
-		rt_data->scene.camera.coord.y -= 0.1;
+		rt_data->scene.camera.pos.y -= 0.1;
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_W))
 	{
 		t_vec3	forward = cross(cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm)), vec3(0, 1, 0));
-		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(forward, 0.1));
+		rt_data->scene.camera.pos = add(rt_data->scene.camera.pos, scale(forward, 0.1));
 	}
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_S))
 	{
 		t_vec3	forward = cross(cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm)), vec3(0, 1, 0));
-		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(forward, -0.1));
+		rt_data->scene.camera.pos = add(rt_data->scene.camera.pos, scale(forward, -0.1));
 	}
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_D))
 	{
 		t_vec3	right = cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm));
-		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(right, 0.1));
+		rt_data->scene.camera.pos = add(rt_data->scene.camera.pos, scale(right, 0.1));
 	}
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_A))
 	{
 		t_vec3	right = cross(vec3(0, 1, 0), normalize(rt_data->scene.camera.norm));
-		rt_data->scene.camera.coord = add(rt_data->scene.camera.coord, scale(right, -0.1));
+		rt_data->scene.camera.pos = add(rt_data->scene.camera.pos, scale(right, -0.1));
 	}
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_UP))
 	{
@@ -113,12 +113,12 @@ uint32_t	rgb(uint8_t r, uint8_t g, uint8_t b)
 	return (rgba(r, g, b, 0xFF));
 }
 
-void	add_sphere(t_shape_list **list, t_vec3 pos, long double radius, int32_t rgb)
+void	add_sphere(t_shape_list **list, t_vec3 pos, long double radius, int32_t rgba)
 {
 	t_sphere	sphere = {
-		.coord = pos,
+		.pos = pos,
 		.radius = radius,
-		.rgb = rgb,
+		.rgba = rgba,
 	};
 	t_shape_list	*new_list = malloc(sizeof(t_shape_list));
 	new_list->shape.type = SPHERE;
@@ -127,12 +127,12 @@ void	add_sphere(t_shape_list **list, t_vec3 pos, long double radius, int32_t rgb
 	*list = new_list;
 }
 
-void	add_plane(t_shape_list **list, t_vec3 pos, t_vec3 normal, int32_t rgb)
+void	add_plane(t_shape_list **list, t_vec3 pos, t_vec3 normal, int32_t rgba)
 {
 	t_plane	plane = {
-		.coord = pos,
+		.pos = pos,
 		.norm = normal,
-		.rgb = rgb,
+		.rgba = rgba,
 	};
 	t_shape_list	*new_list = malloc(sizeof(t_shape_list));
 	new_list->shape.type = PLANE;
@@ -141,12 +141,12 @@ void	add_plane(t_shape_list **list, t_vec3 pos, t_vec3 normal, int32_t rgb)
 	*list = new_list;
 }
 
-void	add_cylinder(t_shape_list **list, t_vec3 pos, t_vec3 normal, long double height, long double radius, int32_t rgb)
+void	add_cylinder(t_shape_list **list, t_vec3 pos, t_vec3 normal, long double height, long double radius, int32_t rgba)
 {
 	t_cylinder	cylinder = {
-		.coord = pos,
+		.pos = pos,
 		.norm = normal,
-		.rgb = rgb,
+		.rgba = rgba,
 		.height = height,
 		.radius = radius,
 	};
@@ -159,17 +159,17 @@ void	add_cylinder(t_shape_list **list, t_vec3 pos, t_vec3 normal, long double he
 
 void	load_scene(t_scene *scene)
 {
-	scene->ambient.ratio = 0.4;
-	scene->ambient.rgb = rgb(255, 255, 255);
-	scene->camera.coord = vec3(0, 0, 0);
+	scene->ambient.brightness = 0.4;
+	scene->ambient.rgba = rgb(255, 255, 255);
+	scene->camera.pos = vec3(0, 0, 0);
 	scene->camera.fov = 90;
 	scene->camera.norm = vec3(0, 0, 1);
 	scene->light.brightness = 1;
-	scene->light.coord = vec3(0, 0, 0);
-	scene->light.rgb = rgb(255, 255, 255);
+	scene->light.pos = vec3(0, 0, 0);
+	scene->light.rgba = rgb(255, 255, 255);
 	scene->objects = NULL;
 	add_sphere(&scene->objects, vec3(0, 0, 3), 1, rgb(255, 0, 0));
-	// add_sphere(&scene->objects, vec3(1.5, 0, -3), 1, rgb(0, 0, 255));
+	// add_sphere(&scene->objects, vec3(1.5, 0, -3), 1, rgba(0, 0, 255));
 	add_cylinder(&scene->objects, vec3(1.5, 0, 3), vec3(0, 1, 0), 2, 1, rgb(0, 0, 255));
 	add_plane(&scene->objects, vec3(0, -0.5, 3), vec3(0, 1, 0), rgb(0, 255, 0));
 }

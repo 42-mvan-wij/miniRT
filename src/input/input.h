@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:47:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:54:05 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_status	parse_scene(char *scene_path, t_scene *scene);
 t_status	parse_type(char **line, t_object_type *type);
 t_status	parse_int_field(char **line, int *i);
 t_status	parse_float_field(char **line, long double *f);
-t_status	parse_rgb_field(char **line, uint32_t *rgb);
+t_status	parse_rgb_field(char **line, uint32_t *rgba);
 t_status	parse_vec_field(char **line, t_vec3 *vec);
 
 // elements

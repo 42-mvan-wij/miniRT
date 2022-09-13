@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:01:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/05 12:40:39 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_vec3	get_cylinder_normal(t_ray ray, t_cylinder *cylinder, long double t)
 	t_vec3	dir;
 
 	point = add(scale(ray.dir, t), ray.origin);
-	dir = sub(point, cylinder->coord);
+	dir = sub(point, cylinder->pos);
 	return (normalize(cross(cross(cylinder->norm, dir), cylinder->norm)));
 }
 
@@ -51,7 +51,7 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	}
 	out_ray.rgb_energy = ray.rgb_energy; // not really needed
 	out_ray.dir = transform(ray.dir, m);
-	out_ray.origin = transform(sub(ray.origin, cylinder->coord), m);
+	out_ray.origin = transform(sub(ray.origin, cylinder->pos), m);
 	return (out_ray);
 }
 

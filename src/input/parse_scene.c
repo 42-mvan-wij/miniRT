@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 14:18:11 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 #include <fcntl.h>
 
 // printf("------------ SCENE ------------\n");
-// printf("Ambient: (%Lf, %d)\n", scene->ambient.ratio, scene->ambient.rgb);
-// printf("Camera:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->camera.coord.x, scene->camera.coord.y, scene->camera.coord.z, scene->camera.norm.x, scene->camera.norm.y, scene->camera.norm.z, scene->camera.fov);
-// printf("Light:   ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->light.coord.x, scene->light.coord.y, scene->light.coord.z, scene->light.brightness, scene->light.rgb);
+// printf("Ambient: (%Lf, %d)\n", scene->ambient.brightness, scene->ambient.rgba);
+// printf("Camera:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z, scene->camera.norm.x, scene->camera.norm.y, scene->camera.norm.z, scene->camera.fov);
+// printf("Light:   ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->light.pos.x, scene->light.pos.y, scene->light.pos.z, scene->light.brightness, scene->light.rgba);
 // while (scene->objects) {
 // 	if (scene->objects->type == SPHERE)
-// 		printf("sphere:  ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->objects->sphere.coord.x, scene->objects->sphere.coord.y, scene->objects->sphere.coord.z, scene->objects->sphere.radius, scene->objects->sphere.rgb);
+// 		printf("sphere:  ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->objects->sphere.pos.x, scene->objects->sphere.pos.y, scene->objects->sphere.pos.z, scene->objects->sphere.radius, scene->objects->sphere.rgba);
 // 	else if (scene->objects->type == PLANE)
-// 		printf("plane:   ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->objects->plane.coord.x, scene->objects->plane.coord.y, scene->objects->plane.coord.z, scene->objects->plane.norm.x, scene->objects->plane.norm.y, scene->objects->plane.norm.z, scene->objects->plane.rgb);
+// 		printf("plane:   ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->objects->plane.pos.x, scene->objects->plane.pos.y, scene->objects->plane.pos.z, scene->objects->plane.norm.x, scene->objects->plane.norm.y, scene->objects->plane.norm.z, scene->objects->plane.rgba);
 // 	else if (scene->objects->type == CYLINDER)
-// 		printf("cylinder:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %Lf, %Lf, %d)\n", scene->objects->cylinder.coord.x, scene->objects->cylinder.coord.y, scene->objects->cylinder.coord.z, scene->objects->cylinder.norm.x, scene->objects->cylinder.norm.y, scene->objects->cylinder.norm.z, scene->objects->cylinder.radius, scene->objects->cylinder.height, scene->objects->cylinder.rgb);
+// 		printf("cylinder:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %Lf, %Lf, %d)\n", scene->objects->cylinder.pos.x, scene->objects->cylinder.pos.y, scene->objects->cylinder.pos.z, scene->objects->cylinder.norm.x, scene->objects->cylinder.norm.y, scene->objects->cylinder.norm.z, scene->objects->cylinder.radius, scene->objects->cylinder.height, scene->objects->cylinder.rgba);
 // 	scene->objects = scene->objects->next;
 // }
 

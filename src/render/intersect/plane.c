@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:02:22 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/05 12:38:38 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ign
 		return ;
 	if (almost_equal(a, 0))
 		return ;
-	t = dot(shape->plane.norm, sub(shape->plane.coord, ray.origin)) / a;
+	t = dot(shape->plane.norm, sub(shape->plane.pos, ray.origin)) / a;
 	if (t < 0 || t >= best_hit->distance)
 		return ;
 	best_hit->distance = t;

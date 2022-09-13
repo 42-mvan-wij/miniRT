@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:02:39 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/05 12:37:31 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ig
 	long double	tt;
 	t_vec3		normal;
 
-	if (!intersect_sphere_comp(ray, shape->sphere.coord, shape->sphere.radius, t))
+	if (!intersect_sphere_comp(ray, shape->sphere.pos, shape->sphere.radius, t))
 		return ;
 	tt = t[0];
-	normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.coord));
+	normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.pos));
 	if (tt < 0 || (ignore_normal != NULL && vec3_eq(normal, *ignore_normal)))
 	{
 		tt = t[1];
-		normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.coord));
+		normal = normalize(sub(add(ray.origin, scale(ray.dir, tt)), shape->sphere.pos));
 	}
 	if (tt >= best_hit->distance || (ignore_normal != NULL && vec3_eq(normal, *ignore_normal)))
 		return ;

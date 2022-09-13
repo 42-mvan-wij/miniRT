@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:52:26 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,40 @@
 # include "vec3/vec3_structs.h"
 
 typedef struct s_ambient {
-	long double	ratio;
-	uint32_t	rgb;
+	long double	brightness;
+	uint32_t	rgba;
 }	t_ambient;
 
 typedef struct s_camera {
-	t_vec3		coord;
+	t_vec3		pos;
 	t_vec3		norm;
 	int			fov;
 }	t_camera;
 
 typedef struct s_light {
-	t_vec3		coord;
+	t_vec3		pos;
 	long double	brightness;
-	uint32_t	rgb; // unused in mandatory part
+	uint32_t	rgba; // unused in mandatory part
 }	t_light;
 
 typedef struct s_sphere {
-	t_vec3		coord;
+	t_vec3		pos;
 	long double	radius; // convert from diameter
-	uint32_t	rgb;
+	uint32_t	rgba;
 }	t_sphere;
 
 typedef struct s_plane {
-	t_vec3		coord;
+	t_vec3		pos;
 	t_vec3		norm;
-	uint32_t	rgb;
+	uint32_t	rgba;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_vec3		coord;
+	t_vec3		pos;
 	t_vec3		norm;
 	long double	radius; // convert from diameter
 	long double	height;
-	uint32_t	rgb;
+	uint32_t	rgba;
 }	t_cylinder;
 
 typedef enum s_object_type {

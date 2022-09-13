@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/13 12:05:14 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:59:54 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_status	parse_cylinder(char **line, t_scene *scene)
 	t_object	obj;
 
 	obj.type = CYLINDER;
-	if (parse_vec_field(line, &obj.cylinder.coord) != OK)
+	if (parse_vec_field(line, &obj.cylinder.pos) != OK)
 		return (FAIL);
 	if (parse_vec_field(line, &obj.cylinder.norm) != OK)
 		return (FAIL);
@@ -29,7 +29,7 @@ t_status	parse_cylinder(char **line, t_scene *scene)
 	obj.cylinder.radius /= 2;
 	if (parse_float_field(line, &obj.cylinder.height) != OK)
 		return (FAIL);
-	if (parse_rgb_field(line, &obj.cylinder.rgb) != OK)
+	if (parse_rgb_field(line, &obj.cylinder.rgba) != OK)
 		return (FAIL);
 	rt_lstnew_back(&scene->objects, obj);
 	return (OK);

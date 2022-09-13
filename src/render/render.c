@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:12:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:44:05 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	set_ray(t_ray *ray, long double x, long double y, t_rt_data *rt_data)
 		scale(up, yy),
 		scale(right, xx)
 	)));
-	ray->origin = rt_data->scene.camera.coord;
+	ray->origin = rt_data->scene.camera.pos;
 	ray->rgb_energy = vec3(1, 1, 1);
 }
 

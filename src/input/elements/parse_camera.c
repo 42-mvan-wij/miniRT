@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/27 15:03:53 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/06 17:38:21 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 t_status	parse_camera(char **line, t_scene *scene)
 {
-	if (parse_vec_field(line, &scene->camera.coord) != OK)
+	if (parse_vec_field(line, &scene->camera.pos) != OK)
 		return (FAIL);
 	if (parse_vec_field(line, &scene->camera.norm) != OK)
 		return (FAIL);
