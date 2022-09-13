@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/09/10 15:57:57 by rvan-duy      ########   odam.nl          #
+#    Updated: 2022/09/13 12:13:06 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,8 @@ SOURCES +=	src/test.c \
 			src/input/elements/parse_camera.c \
 			src/input/elements/parse_light.c \
 			src/input/elements/parse_sphere.c \
-			src/input/elements/parse_plane.c
+			src/input/elements/parse_plane.c \
+			src/input/elements/parse_cylinder.c
 
 ################################################################################
 

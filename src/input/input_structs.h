@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/10 15:29:44 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 12:09:33 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ typedef struct s_plane {
 typedef struct s_cylinder {
 	t_vec3		coord;
 	t_vec3		norm;
-	long double	radius; // converted from diameter and height
+	long double	height;
+	long double	radius; // converted from diameter
 	int			rgb;
 }	t_cylinder;
 

@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/10 15:57:04 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 12:17:32 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static t_status	parse_element(t_object_type type, char **line, t_scene *scene)
 	[LIGHT] = &parse_light,
 	[SPHERE] = &parse_sphere,
 	[PLANE] = &parse_plane,
+	[CYLINDER] = &parse_cylinder,
 	};
 
 	return (jump_table[type](line, scene));
@@ -83,6 +84,8 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 	// 		printf("sphere:  ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->objects->sphere.coord.x, scene->objects->sphere.coord.y, scene->objects->sphere.coord.z, scene->objects->sphere.radius, scene->objects->sphere.rgb);
 	// 	else if (scene->objects->type == PLANE)
 	// 		printf("plane:   ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->objects->plane.coord.x, scene->objects->plane.coord.y, scene->objects->plane.coord.z, scene->objects->plane.norm.x, scene->objects->plane.norm.y, scene->objects->plane.norm.z, scene->objects->plane.rgb);
+	// 	else if (scene->objects->type == CYLINDER)
+	// 		printf("cylinder:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %Lf, %Lf, %d)\n", scene->objects->cylinder.coord.x, scene->objects->cylinder.coord.y, scene->objects->cylinder.coord.z, scene->objects->cylinder.norm.x, scene->objects->cylinder.norm.y, scene->objects->cylinder.norm.z, scene->objects->cylinder.radius, scene->objects->cylinder.height, scene->objects->cylinder.rgb);
 	// 	scene->objects = scene->objects->next;
 	// }
 	exit(200);
