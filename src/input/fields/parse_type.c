@@ -40,7 +40,7 @@ static t_status	get_type(char *line, t_object_type *type)
 	else if (is_type(line, "cy"))
 		*type = CYLINDER;
 	else
-		return (rt_set_error(E_EXPECTED_IDENTIFIER, NULL)); // argument is NULL, correct? prob not
+		return (rt_set_error(E_EXPECTED_IDENTIFIER, " (A, C, L, sp, pl, cy)"));
 	return (OK);
 }
 

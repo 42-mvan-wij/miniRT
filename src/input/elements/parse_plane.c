@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/09 09:48:10 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 17:11:32 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "utils/utils.h"
 #include <stdlib.h>
 
-// TODO: testing
-// FIXME: check error on lstnew_back (in all files)
 t_status	parse_plane(char **line, t_scene *scene)
 {
 	t_object	obj;
@@ -31,6 +29,7 @@ t_status	parse_plane(char **line, t_scene *scene)
 		return (rt_set_error(E_EXPECTED_FLOAT, " in range of [-1.0 - 1.0]"));
 	if (parse_rgb_field(line, &obj.plane.rgba) != OK)
 		return (FAIL);
-	rt_lstnew_back(&scene->objects, obj);
+	if (rt_lstnew_back(&scene->objects, obj) == NULL)
+		return (rt_set_error(E_MALLOC, NULL));
 	return (OK);
 }
