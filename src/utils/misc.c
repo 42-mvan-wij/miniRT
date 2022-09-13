@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   structs.h                                          :+:    :+:            */
+/*   misc.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/22 14:48:02 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:42:47 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 14:00:40 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:40:27 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#include <math.h>
+#include "structs.h"
 
-#include <stdio.h> // remove at the end
+long double	sin_from_cos(long double cos_a)
+{
+	return (sinl(acosl(cos_a)));
+	// return (sqrtl(1 - (cos_a * cos_a)));
+}
 
-# include <stdbool.h>
-# include <stdint.h>
+bool	almost_equal(long double a, long double b)
+{
+	long double	diff;
 
-# define COS 0
-# define SIN 1
-# define MAX_BOUNCES 8
-
-# include "vec3/vec3_structs.h"
-# include "utils/utils_structs.h"
-# include "render/render_structs.h"
-# include "input/input_structs.h"
-# include "utils/error_structs.h"
-
-#endif
+	diff = a - b;
+	return (diff <= __DBL_EPSILON__ * 10 && diff >= -__DBL_EPSILON__ * 10);
+}

@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:16:16 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 14:18:11 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,5 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 	close(fd);
 	if (gnl < 0)
 		return (rt_set_error(E_GNL, NULL));
-	exit(200);
 	return (OK);
 }

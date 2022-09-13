@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   structs.h                                          :+:    :+:            */
+/*   multiply.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/22 14:48:02 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:42:47 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/09/01 13:58:02 by mvan-wij      #+#    #+#                 */
+/*   Updated: 2022/09/01 14:19:24 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#include "structs.h"
+#include "vec3/vec3.h"
 
-#include <stdio.h> // remove at the end
+// project v1 onto v2 and multiply length by length of v2, order doesn't matter
+long double	dot(t_vec3 v1, t_vec3 v2)
+{
+	return (v1.x * v2.x
+		+ v1.y * v2.y
+		+ v1.z * v2.z);
+}
 
-# include <stdbool.h>
-# include <stdint.h>
-
-# define COS 0
-# define SIN 1
-# define MAX_BOUNCES 8
-
-# include "vec3/vec3_structs.h"
-# include "utils/utils_structs.h"
-# include "render/render_structs.h"
-# include "input/input_structs.h"
-# include "utils/error_structs.h"
-
-#endif
+t_vec3	cross(t_vec3 v1, t_vec3 v2)
+{
+	return (vec3(
+			v1.y * v2.z - v1.z * v2.y,
+			v1.z * v2.x - v1.x * v2.z,
+			v1.x * v2.y - v1.y * v2.x));
+}
