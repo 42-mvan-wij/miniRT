@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:48:23 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 16:54:19 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int32_t	main(int argc, char **argv)
 		ft_putendl_fd("ERRRRRRORR: make proper error", STDOUT_FILENO);
 		return (0);
 	}
+	rt_data.scene.objects = NULL;
 	if (parse_scene(argv[1], &rt_data.scene) != OK)
 	{
 		print_error();
