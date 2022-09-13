@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/18 15:32:30 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 14:14:40 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/13 13:08:28 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	print_error(void)
 	[E_EXPECTED_FLOAT] = "Expected float",
 	[E_EXPECTED_INTEGER] = "Expected integer",
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
+	[E_EXPECTED_RT_FILE] = "Expected .rt file",
 	};
 
 	ft_putstr_fd((char *)error_texts[error.error], STDOUT_FILENO);
@@ -65,21 +66,22 @@ int32_t	main(int argc, char **argv)
 	mlx_t	*mlx;
 	t_scene	scene;
 
-	(void)argc;
-	// TODO: check valid file
-	if (parse_scene(argv[1], &scene) != OK)
+	if (argc > 1)
 	{
-		print_error();
-		return (EXIT_FAILURE);
+		if (parse_scene(argv[1], &scene) != OK)
+		{
+			print_error();
+			return (EXIT_FAILURE);
+		}
+		mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+		if (!mlx)
+			exit(EXIT_FAILURE);
+		g_img = mlx_new_image(mlx, 128, 128);
+		memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
+		mlx_image_to_window(mlx, g_img, 0, 0);
+		mlx_loop_hook(mlx, &hook, mlx);
+		mlx_loop(mlx);
+		mlx_terminate(mlx);
+		return (EXIT_SUCCESS);
 	}
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	if (!mlx)
-		exit(EXIT_FAILURE);
-	g_img = mlx_new_image(mlx, 128, 128);
-	memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
-	mlx_image_to_window(mlx, g_img, 0, 0);
-	mlx_loop_hook(mlx, &hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
 }
