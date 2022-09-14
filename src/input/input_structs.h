@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/14 10:12:34 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ typedef struct s_camera {
 typedef struct s_light {
 	t_vec3		pos;
 	long double	brightness;
-	uint32_t	rgba; // unused in mandatory part
+	uint32_t	rgba;
 }	t_light;
 
 typedef struct s_sphere {
 	t_vec3		pos;
-	long double	radius; // convert from diameter
+	long double	radius;
 	uint32_t	rgba;
 }	t_sphere;
 
@@ -49,7 +49,7 @@ typedef struct s_plane {
 typedef struct s_cylinder {
 	t_vec3		pos;
 	t_vec3		norm;
-	long double	radius; // convert from diameter
+	long double	radius;
 	long double	height;
 	uint32_t	rgba;
 }	t_cylinder;

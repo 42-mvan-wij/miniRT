@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:02:22 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/14 10:14:35 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "utils/utils.h"
 #include "vec3/vec3.h"
 
-void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ignore_normal)
+void	intersect_plane(t_ray ray, t_rayhit *best_hit, t_object *shape,
+			t_vec3 *ignore_normal)
 {
 	const long double	a = dot(ray.dir, shape->plane.norm);
 	double				t;

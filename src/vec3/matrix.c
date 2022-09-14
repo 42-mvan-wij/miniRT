@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 13:55:38 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:19:14 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/14 10:09:14 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,24 @@ t_matrix	matrix_from_vecs(t_vec3 right, t_vec3 up, t_vec3 in)
 
 t_matrix	matrix_dot(t_matrix m1, t_matrix m2)
 {
-	const t_matrix	matrix = {
-		.data = {
-		m1.data[0 + 0 * 3] * m2.data[0 + 0 * 3] + m1.data[1 + 0 * 3]
-		* m2.data[0 + 1 * 3] + m1.data[2 + 0 * 3] * m2.data[0 + 2 * 3],
-		m1.data[0 + 0 * 3] * m2.data[1 + 0 * 3] + m1.data[1 + 0 * 3]
-		* m2.data[1 + 1 * 3] + m1.data[2 + 0 * 3] * m2.data[1 + 2 * 3],
-		m1.data[0 + 0 * 3] * m2.data[2 + 0 * 3] + m1.data[1 + 0 * 3]
-		* m2.data[2 + 1 * 3] + m1.data[2 + 0 * 3] * m2.data[2 + 2 * 3],
+	int			y;
+	int			x;
+	t_matrix	matrix;
 
-		m1.data[0 + 1 * 3] * m2.data[0 + 0 * 3] + m1.data[1 + 1 * 3]
-		* m2.data[0 + 1 * 3] + m1.data[2 + 1 * 3] * m2.data[0 + 2 * 3],
-		m1.data[0 + 1 * 3] * m2.data[1 + 0 * 3] + m1.data[1 + 1 * 3]
-		* m2.data[1 + 1 * 3] + m1.data[2 + 1 * 3] * m2.data[1 + 2 * 3],
-		m1.data[0 + 1 * 3] * m2.data[2 + 0 * 3] + m1.data[1 + 1 * 3]
-		* m2.data[2 + 1 * 3] + m1.data[2 + 1 * 3] * m2.data[2 + 2 * 3],
-
-		m1.data[0 + 2 * 3] * m2.data[0 + 0 * 3] + m1.data[1 + 2 * 3]
-		* m2.data[0 + 1 * 3] + m1.data[2 + 2 * 3] * m2.data[0 + 2 * 3],
-		m1.data[0 + 2 * 3] * m2.data[1 + 0 * 3] + m1.data[1 + 2 * 3]
-		* m2.data[1 + 1 * 3] + m1.data[2 + 2 * 3] * m2.data[1 + 2 * 3],
-		m1.data[0 + 2 * 3] * m2.data[2 + 0 * 3] + m1.data[1 + 2 * 3]
-		* m2.data[2 + 1 * 3] + m1.data[2 + 2 * 3] * m2.data[2 + 2 * 3],
-	}};
-
+	y = 0;
+	while (y < 3)
+	{
+		x = 0;
+		while (x < 3)
+		{
+			matrix.data[y * 3 + x]
+				= m1.data[0 + y * 3] * m2.data[x + 0 * 3]
+				+ m1.data[1 + y * 3] * m2.data[x + 1 * 3]
+				+ m1.data[2 + y * 3] * m2.data[x + 2 * 3];
+			x++;
+		}
+		y++;
+	}
 	return (matrix);
 }
 

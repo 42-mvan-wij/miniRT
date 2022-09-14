@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 13:53:51 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:40:37 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/14 10:10:33 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_vec3	sub(t_vec3 v1, t_vec3 v2)
 
 bool	vec3_eq(t_vec3 v1, t_vec3 v2)
 {
-	// return (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z);
-	return (almost_equal(v1.x, v2.x) && almost_equal(v1.y, v2.y) && almost_equal(v1.z, v2.z));
+	return (almost_equal(v1.x, v2.x)
+		&& almost_equal(v1.y, v2.y)
+		&& almost_equal(v1.z, v2.z));
 }

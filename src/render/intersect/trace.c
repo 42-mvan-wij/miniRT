@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:29:31 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/05 12:45:30 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/14 10:14:41 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	init_rayhit(t_rayhit *rayhit)
 	rayhit->normal = vec3(0, 0, 0);
 }
 
-void	intersect(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ignore_normal)
+void	intersect(t_ray ray, t_rayhit *best_hit, t_object *shape,
+			t_vec3 *ignore_normal)
 {
 	if (shape->type == SPHERE)
 		intersect_sphere(ray, best_hit, shape, ignore_normal);

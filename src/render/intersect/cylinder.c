@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:01:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:44:40 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/14 10:29:36 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,53 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 				matrix_from_vecs(vec3(-cos_sin_b[SIN], cos_sin_b[COS], 0),
 					vec3(cos_sin_b[COS], cos_sin_b[SIN], 0), vec3(0, 0, 1)));
 	}
-	out_ray.rgb_energy = ray.rgb_energy; // not really needed
 	out_ray.dir = transform(ray.dir, m);
 	out_ray.origin = transform(sub(ray.origin, cylinder->pos), m);
 	return (out_ray);
 }
 
-void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_object *shape, t_vec3 *ignore_normal)
+bool	intersects_vertically(t_ray pers_ray, long double t, long double height)
+{
+	return (pers_ray.dir.y * t + pers_ray.origin.y < -height / 2
+		|| pers_ray.dir.y * t + pers_ray.origin.y > height / 2);
+}
+
+bool	get_intersect_times(t_ray pers_ray, t_cylinder cylinder,
+			long double t[2])
+{
+	t_ray		flat_ray;
+	long double	stretch_factor;
+
+	flat_ray.origin = vec3(pers_ray.origin.x, 0, pers_ray.origin.z);
+	flat_ray.dir = normalize(vec3(pers_ray.dir.x, 0, pers_ray.dir.z));
+	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), cylinder.radius, t))
+		return (false);
+	stretch_factor = dot(pers_ray.dir, flat_ray.dir);
+	t[0] /= stretch_factor;
+	t[1] /= stretch_factor;
+	return (true);
+}
+
+void	intersect_cylinder(t_ray ray, t_rayhit *best_hit, t_object *shape,
+			t_vec3 *ignore_normal)
 {
 	t_ray		pers_ray;
-	t_ray		flat_ray;
 	long double	t[2];
 	long double	tt;
 	t_vec3		normal;
 
 	pers_ray = in_cylinder_perspective(ray, &shape->cylinder);
-	flat_ray.origin = vec3(pers_ray.origin.x, 0, pers_ray.origin.z);
-	flat_ray.dir = normalize(vec3(pers_ray.dir.x, 0, pers_ray.dir.z));
-	flat_ray.rgb_energy = ray.rgb_energy; // not really needed
-	if (!intersect_sphere_comp(flat_ray, vec3(0, 0, 0), shape->cylinder.radius, t))
+	if (!get_intersect_times(pers_ray, shape->cylinder, t))
 		return ;
-	tt = t[0] / dot(pers_ray.dir, flat_ray.dir);
+	tt = t[0];
 	normal = get_cylinder_normal(ray, &shape->cylinder, tt);
-	if (tt < 0 || pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2 || (ignore_normal != NULL && vec3_eq(*ignore_normal, normal)))
+	if (tt < 0 || intersects_vertically(pers_ray, tt, shape->cylinder.height)
+		|| (ignore_normal != NULL && vec3_eq(*ignore_normal, normal)))
 	{
-		tt = t[1] / dot(pers_ray.dir, flat_ray.dir);
+		tt = t[1];
 		normal = get_cylinder_normal(ray, &shape->cylinder, tt);
-		if (pers_ray.dir.y * tt + pers_ray.origin.y < -shape->cylinder.height / 2 || pers_ray.dir.y * tt + pers_ray.origin.y > shape->cylinder.height / 2 || (ignore_normal != NULL && vec3_eq(*ignore_normal, normal)))
+		if (intersects_vertically(pers_ray, tt, shape->cylinder.height)
+			|| (ignore_normal != NULL && vec3_eq(*ignore_normal, normal)))
 			return ;
 	}
 	if (tt >= best_hit->distance)
