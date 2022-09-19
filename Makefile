@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/09/13 16:34:58 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/19 11:47:24 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SOURCES += \
 	src/input/fields/parse_rgb_field.c			\
 	src/input/fields/parse_type.c				\
 	src/input/fields/parse_vec_field.c			\
+	src/input/fields/parse_normal_field.c		\
 	src/input/parse_scene.c						\
 	src/render/intersect/cylinder.c				\
 	src/render/intersect/plane.c				\

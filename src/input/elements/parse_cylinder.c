@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/13 12:05:14 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/13 17:11:36 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/19 11:45:13 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_status	parse_cylinder(char **line, t_scene *scene)
 	obj.type = CYLINDER;
 	if (parse_vec_field(line, &obj.cylinder.pos) != OK)
 		return (FAIL);
-	if (parse_vec_field(line, &obj.cylinder.norm) != OK)
+	if (parse_normal_field(line, &obj.cylinder.norm) != OK)
 		return (FAIL);
 	if (parse_float_field(line, &obj.cylinder.radius) != OK)
 		return (FAIL);

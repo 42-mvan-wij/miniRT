@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_camera.c                                     :+:    :+:            */
+/*   parse_normal_field.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/08/27 15:03:53 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/19 11:45:05 by mvan-wij      ########   odam.nl         */
+/*   Created: 2022/08/27 15:05:33 by rvan-duy      #+#    #+#                 */
+/*   Updated: 2022/09/19 11:44:02 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input/input.h"
 #include "utils/utils.h"
+#include "vec3/vec3.h"
 #include <stdlib.h>
 
-t_status	parse_camera(char **line, t_scene *scene)
+t_status	parse_normal_field(char **line, t_vec3 *vec)
 {
-	if (parse_vec_field(line, &scene->camera.pos) != OK)
+	if (parse_vec_field(line, vec) != OK)
 		return (FAIL);
-	if (parse_normal_field(line, &scene->camera.norm) != OK)
-		return (FAIL);
-	if (parse_int_field(line, &scene->camera.fov) != OK)
-		return (FAIL);
-	if (scene->camera.fov < 0 || scene->camera.fov > 180)
-		return (rt_set_error(E_EXPECTED_INTEGER, " in range of [0 - 180]"));
+	if (!almost_equal(mag2(*vec), 1))
+		return (rt_set_error(E_EXPECTED_NORMAL, NULL));
 	return (OK);
 }

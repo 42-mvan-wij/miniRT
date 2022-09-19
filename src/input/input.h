@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:47:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/19 11:44:24 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_status	parse_int_field(char **line, int *i);
 t_status	parse_float_field(char **line, long double *f);
 t_status	parse_rgb_field(char **line, uint32_t *rgba);
 t_status	parse_vec_field(char **line, t_vec3 *vec);
+t_status	parse_normal_field(char **line, t_vec3 *vec);
 
 // elements
 t_status	parse_ambient_light(char **line, t_scene *scene);

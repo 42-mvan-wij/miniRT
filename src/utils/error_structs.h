@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 13:47:21 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/19 11:43:46 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef enum e_error {
 	E_EXPECTED_INTEGER,
 	E_EXPECTED_IDENTIFIER,
 	E_EXPECTED_RT_FILE,
+	E_EXPECTED_NORMAL,
 	E_MLX,
 }	t_error;
 

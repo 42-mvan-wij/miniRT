@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/09 09:48:10 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/13 17:11:32 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/19 11:45:30 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,8 @@ t_status	parse_plane(char **line, t_scene *scene)
 	obj.type = PLANE;
 	if (parse_vec_field(line, &obj.plane.pos) != OK)
 		return (FAIL);
-	if (parse_vec_field(line, &obj.plane.norm) != OK)
+	if (parse_normal_field(line, &obj.plane.norm) != OK)
 		return (FAIL);
-	if (obj.plane.norm.x < -1 || obj.plane.norm.x > 1 || \
-		obj.plane.norm.y < -1 || obj.plane.norm.y > 1 || \
-		obj.plane.norm.z < -1 || obj.plane.norm.z > 1)
-		return (rt_set_error(E_EXPECTED_FLOAT, " in range of [-1.0 - 1.0]"));
 	if (parse_rgb_field(line, &obj.plane.rgba) != OK)
 		return (FAIL);
 	if (rt_lstnew_back(&scene->objects, obj) == NULL)
