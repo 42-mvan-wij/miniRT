@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:01:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/14 10:29:36 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/20 17:18:56 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "utils/utils.h"
 #include "vec3/vec3.h"
 #include "render/intersect/intersect.h"
+#include <math.h>
 
 t_vec3	get_cylinder_normal(t_ray ray, t_cylinder *cylinder, long double t)
 {
@@ -34,21 +35,19 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	t_ray		out_ray;
 
 	if (almost_equal(cylinder->norm.y, 1))
-		m = matrix_from_vecs(vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1));
-	else
-	{
-		flat_normal = cylinder->norm;
-		flat_normal.y = 0;
-		cos_sin_a[COS] = dot(vec3(1, 0, 0), flat_normal) / mag(flat_normal);
-		cos_sin_a[SIN] = sin_from_cos(cos_sin_a[COS]);
-		cos_sin_b[COS] = dot(vec3(0, 1, 0), cylinder->norm);
-		cos_sin_b[SIN] = sin_from_cos(cos_sin_b[COS]);
-		m = compose(
-				matrix_from_vecs(vec3(cos_sin_a[COS], 0, -cos_sin_a[SIN]),
-					vec3(0, 1, 0), vec3(cos_sin_a[SIN], 0, cos_sin_a[COS])),
-				matrix_from_vecs(vec3(-cos_sin_b[SIN], cos_sin_b[COS], 0),
-					vec3(cos_sin_b[COS], cos_sin_b[SIN], 0), vec3(0, 0, 1)));
-	}
+		return (ray);
+	flat_normal = cylinder->norm;
+	flat_normal.y = 0;
+	cos_sin(vec3(1, 0, 0), flat_normal, cos_sin_a);
+	cos_sin(vec3(0, 1, 0), cylinder->norm, cos_sin_b);
+	m = compose(matrix_from_vecs(
+				vec3(cos_sin_b[COS], cos_sin_b[SIN], 0),
+				vec3(-cos_sin_b[SIN], cos_sin_b[COS], 0),
+				vec3(0, 0, 1)),
+			matrix_from_vecs(
+				vec3(cos_sin_a[COS], 0, cos_sin_a[SIN]),
+				vec3(0, 1, 0),
+				vec3(-cos_sin_a[SIN], 0, cos_sin_a[COS])));
 	out_ray.dir = transform(ray.dir, m);
 	out_ray.origin = transform(sub(ray.origin, cylinder->pos), m);
 	return (out_ray);

@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/09/19 11:47:24 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/20 18:00:22 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ SOURCES += \
 	src/utils/error.c							\
 	src/utils/lst.c								\
 	src/utils/misc.c							\
+	src/vec3/angle.c							\
 	src/vec3/basic.c							\
 	src/vec3/magnitude.c						\
 	src/vec3/matrix.c							\

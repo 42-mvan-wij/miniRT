@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:06:55 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:35:54 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/20 17:09:03 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define VEC3_H
 
 # include "structs.h"
+
+void		cos_sin(t_vec3 v1, t_vec3 v2, long double cos_and_sin[2]);
 
 t_vec3		vec3(long double x, long double y, long double z);
 t_vec3		scale(t_vec3 v, long double scalar);

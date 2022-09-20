@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:04:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/14 10:34:29 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/20 17:33:25 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,25 @@ t_vec3	get_shape_color(t_object *shape)
 	return (vec3(0, 0, 0));
 }
 
+t_vec3	add_light(t_vec3 current_color, t_vec3 light_color, t_vec3 base_color,
+			long double brightness)
+{
+	return (add(current_color, scale(scale_color(light_color, base_color), \
+									brightness)));
+}
+
 t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 {
 	t_ray		light_ray;
 	t_vec3		diff;
 	t_rayhit	new_hit;
 	long double	cos_a;
-	long double	mattness;
 	t_vec3		effect;
 
 	if (hit.distance >= INFINITY)
 		return (color);
-	color = add(color, scale(scale_color(color2vec(rt_data->scene.ambient.rgba), get_shape_color(hit.shape)), rt_data->scene.ambient.brightness));
+	color = add_light(color, color2vec(rt_data->scene.ambient.rgba),
+			get_shape_color(hit.shape), rt_data->scene.ambient.brightness);
 	light_ray.origin = add(ray.origin, scale(ray.dir, hit.distance));
 	diff = sub(rt_data->scene.light.pos, light_ray.origin);
 	light_ray.dir = normalize(diff);
@@ -49,14 +56,10 @@ t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 		cos_a = dot(light_ray.dir, hit.vis_normal);
 		if (cos_a <= 0)
 			return (color);
-		effect = scale(scale(color2vec(rt_data->scene.light.rgba), cos_a), 1.0 / (mag(diff) + hit.distance) * (mag(diff) + hit.distance));
-		mattness = 1; // kappa * dot(normal, ray.dir);
-		// glossyness;
-		color = add(color,
-			scale(scale_color(
-				scale(effect, mattness), get_shape_color(hit.shape)
-			), rt_data->scene.light.brightness)
-		);
+		effect = scale(scale(color2vec(rt_data->scene.light.rgba), cos_a),
+				1.0 / (mag(diff) + hit.distance) * (mag(diff) + hit.distance));
+		color = add_light(color, effect,
+				get_shape_color(hit.shape), rt_data->scene.light.brightness);
 	}
 	return (color);
 }
