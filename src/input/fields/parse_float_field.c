@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/23 15:43:41 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/06 17:37:49 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/19 14:18:58 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	rt_atodl_strict_skipper(char *str, size_t *skip, size_t *non_digits)
 		(*skip)++;
 }
 
-static t_status	parse_float_advance(char **line, long double *f)
+t_status	parse_float_advance(char **line, long double *f)
 {
 	size_t	skipped;
 	size_t	non_digits;

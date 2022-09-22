@@ -35,7 +35,7 @@ static void	rt_atoi_strict_skipper(char *str, size_t *skip, size_t *non_digits)
 		(*skip)++;
 }
 
-t_status	parse_int_field(char **line, int *i)
+t_status	parse_int_advance(char **line, int *i)
 {
 	size_t	skipped;
 	size_t	non_digits;
@@ -52,5 +52,14 @@ t_status	parse_int_field(char **line, int *i)
 	if (had_overflow)
 		return (rt_set_error(E_EXPECTED_INTEGER, NULL));
 	*line = &(*line)[skipped];
+	return (OK);
+}
+
+t_status	parse_int_field(char **line, int *i)
+{
+	if (parse_int_advance(line, i) != OK)
+		return (FAIL);
+	while (ft_isspace(**line))
+		(*line)++;
 	return (OK);
 }

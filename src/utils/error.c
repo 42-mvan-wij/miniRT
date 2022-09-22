@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:00 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/22 12:52:49 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/22 12:57:30 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void	rt_print_error(void)
 	[E_GNL] = "Failed to get next line",
 	[E_EXPECTED_FLOAT] = "Expected float",
 	[E_EXPECTED_INTEGER] = "Expected integer",
+	[E_EXPECTED_VEC] = "Expected vector",
+	[E_EXPECTED_RGB] = "Expected RGB",
+	[E_EXPECTED_NORMAL] = "Expected normalized vector",
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
 	[E_EXPECTED_RT_FILE] = "Expected .rt file",
 	[E_MLX] = "MLX Error: ",
