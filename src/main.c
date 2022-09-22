@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/22 11:09:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/22 12:47:31 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/22 14:23:30 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,13 @@
 
 void	loop_hook(void *param)
 {
-	static bool	first_time = true;
 	t_rt_data	*rt_data;
 
 	rt_data = param;
 	if (mlx_is_key_down(rt_data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(rt_data->mlx);
-	if (try_movement(rt_data) || first_time)
+	if (try_movement(rt_data))
 		render_frame(rt_data);
-	first_time = false;
 }
 
 static t_status	verify_args(int argc, char **argv)
@@ -76,6 +74,7 @@ int	main(int argc, char **argv)
 		rt_print_error();
 		return (EXIT_FAILURE);
 	}
+	render_frame(&rt_data);
 	mlx_loop(rt_data.mlx);
 	mlx_terminate(rt_data.mlx);
 	return (EXIT_SUCCESS);
