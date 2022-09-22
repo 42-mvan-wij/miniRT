@@ -60,6 +60,8 @@ static t_status	parse_scene_line(char *line, t_scene *scene)
 		return (FAIL);
 	if (parse_element(type, &line, scene) != OK)
 		return (FAIL);
+	if (*line != '\0')
+		return (rt_set_error(E_EXTRA_TEXT, line));
 	return (OK);
 }
 

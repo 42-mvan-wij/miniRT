@@ -58,6 +58,7 @@ void	rt_print_error(void)
 	[E_EXPECTED_NORMAL] = "Expected normalized vector",
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
 	[E_EXPECTED_RT_FILE] = "Expected .rt file",
+	[E_EXTRA_TEXT] = "Unexpected text: ",
 	[E_MLX] = "MLX Error: ",
 	[E_TOO_FEW_ARGS] = "Supplied to few arguments",
 	[E_TOO_MANY_ARGS] = "Supplied to many arguments",
