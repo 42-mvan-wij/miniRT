@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:00 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/08/27 13:37:34 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/22 12:52:49 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,25 @@ t_status	rt_set_error(t_error error, char *error_data_text)
 	if (error == E_NO_ERROR)
 		return (OK);
 	return (FAIL);
+}
+
+void	rt_print_error(void)
+{
+	const t_error_data	error = rt_get_error_data();
+	const char			*error_texts[] = {
+	[E_NO_ERROR] = "lol, get rekt",
+	[E_OPEN] = "Could not open file: ",
+	[E_MALLOC] = "Malloc failed",
+	[E_GNL] = "Failed to get next line",
+	[E_EXPECTED_FLOAT] = "Expected float",
+	[E_EXPECTED_INTEGER] = "Expected integer",
+	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
+	[E_EXPECTED_RT_FILE] = "Expected .rt file",
+	[E_MLX] = "MLX Error: ",
+	[E_TOO_FEW_ARGS] = "Supplied to few arguments",
+	[E_TOO_MANY_ARGS] = "Supplied to many arguments",
+	};
+
+	ft_putstr_fd((char *)error_texts[error.error], STDOUT_FILENO);
+	ft_putendl_fd((char *)error.data_text, STDOUT_FILENO);
 }

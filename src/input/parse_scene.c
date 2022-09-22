@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:55:59 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/22 11:14:01 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ static t_status	parse_scene_line(char *line, t_scene *scene)
 
 static t_status	open_file(char *scene_path, int *fd)
 {
-	if (ft_strncmp(scene_path + ft_strlen(scene_path) - 3, ".rt", 3) != OK)
-		return (rt_set_error(E_EXPECTED_RT_FILE, NULL));
 	*fd = open(scene_path, O_RDONLY);
 	if (*fd < 0)
 		return (rt_set_error(E_OPEN, scene_path));

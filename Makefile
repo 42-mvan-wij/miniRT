@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/09/20 18:00:22 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/22 12:55:05 by mvan-wij      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,8 @@ SOURCES += \
 	src/vec3/matrix.c							\
 	src/vec3/multiply.c							\
 	src/vec3/rotate.c							\
-	src/test.c									\
+	src/main.c									\
+	src/movement.c
 
 ################################################################################
 

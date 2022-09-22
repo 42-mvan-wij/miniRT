@@ -31,6 +31,8 @@ typedef enum e_error {
 	E_EXPECTED_RT_FILE,
 	E_EXPECTED_NORMAL,
 	E_MLX,
+	E_TOO_FEW_ARGS,
+	E_TOO_MANY_ARGS,
 }	t_error;
 
 typedef struct s_error_data {
