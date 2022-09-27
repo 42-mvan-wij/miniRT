@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 11:53:57 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 12:57:59 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum e_error {
 	E_EXPECTED_IDENTIFIER,
 	E_EXPECTED_RT_FILE,
 	E_DUPLICATE_UNIQUE_ELEMENT,
+	E_MISSING_REQUIRED_ELEMENT,
 	E_EXTRA_TEXT,
 	E_MLX,
 	E_TOO_FEW_ARGS,

@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:00 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 12:05:09 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 12:57:24 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	rt_print_error(void)
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
 	[E_EXPECTED_RT_FILE] = "Expected .rt file",
 	[E_DUPLICATE_UNIQUE_ELEMENT] = "Duplicate unique element: ",
+	[E_MISSING_REQUIRED_ELEMENT] = "Missing required element: ",
 	[E_EXTRA_TEXT] = "Unexpected text: ",
 	[E_MLX] = "MLX Error: ",
 	[E_TOO_FEW_ARGS] = "Supplied to few arguments",

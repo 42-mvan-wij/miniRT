@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 12:04:53 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 13:05:55 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,6 @@
 #include "input/input_structs.h"
 #include <stdlib.h>
 #include <fcntl.h>
-
-// printf("------------ SCENE ------------\n");
-// printf("Ambient: (%Lf, %d)\n", scene->ambient.brightness, scene->ambient.rgba);
-// printf("Camera:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z, scene->camera.norm.x, scene->camera.norm.y, scene->camera.norm.z, scene->camera.fov);
-// printf("Light:   ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->light.pos.x, scene->light.pos.y, scene->light.pos.z, scene->light.brightness, scene->light.rgba);
-// while (scene->objects) {
-// 	if (scene->objects->type == SPHERE)
-// 		printf("sphere:  ((%Lf, %Lf, %Lf), %Lf, %d)\n", scene->objects->sphere.pos.x, scene->objects->sphere.pos.y, scene->objects->sphere.pos.z, scene->objects->sphere.radius, scene->objects->sphere.rgba);
-// 	else if (scene->objects->type == PLANE)
-// 		printf("plane:   ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %d)\n", scene->objects->plane.pos.x, scene->objects->plane.pos.y, scene->objects->plane.pos.z, scene->objects->plane.norm.x, scene->objects->plane.norm.y, scene->objects->plane.norm.z, scene->objects->plane.rgba);
-// 	else if (scene->objects->type == CYLINDER)
-// 		printf("cylinder:  ((%Lf, %Lf, %Lf), (%Lf, %Lf, %Lf), %Lf, %Lf, %d)\n", scene->objects->cylinder.pos.x, scene->objects->cylinder.pos.y, scene->objects->cylinder.pos.z, scene->objects->cylinder.norm.x, scene->objects->cylinder.norm.y, scene->objects->cylinder.norm.z, scene->objects->cylinder.radius, scene->objects->cylinder.height, scene->objects->cylinder.rgba);
-// 	scene->objects = scene->objects->next;
-// }
 
 typedef t_status	(*t_parse_fn)(char **, t_scene *);
 
@@ -107,6 +93,9 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 	int		gnl;
 
 	scene->objects = NULL;
+	scene->ambient.is_present = false;
+	scene->camera.is_present = false;
+	scene->light.is_present = false;
 	if (open_file(scene_path, &fd) != OK)
 		return (FAIL);
 	gnl = get_next_line(fd, &line);
@@ -123,6 +112,12 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 			break ;
 		gnl = get_next_line(fd, &line);
 	}
+	if (scene->ambient.is_present == false)
+		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "ambient light"));
+	if (scene->camera.is_present == false)
+		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "camera"));
+	if (scene->light.is_present == false)
+		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "light"));
 	close(fd);
 	if (gnl < 0)
 		return (rt_set_error(E_GNL, NULL));
