@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:04:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/20 17:33:25 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/27 13:58:50 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,8 @@ t_color	get_pixel_color(t_rt_data *rt_data, int x, int y)
 	set_ray(&ray, x, y, rt_data);
 	color = vec3(0, 0, 0);
 	i = 0;
-	// while (i < MAX_BOUNCES)
 	{
 		hit = trace(ray, rt_data->scene.objects, NULL);
-		// color = vec3(fabsl(hit.normal.x), fabsl(hit.normal.y), fabsl(hit.normal.z));
 		color = adjust_color(color, hit, ray, rt_data);
 		i++;
 	}

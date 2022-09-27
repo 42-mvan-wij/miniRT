@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 13:05:55 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 14:13:26 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,68 +14,15 @@
 #include "utils/utils.h"
 #include "libft.h"
 #include "input/input.h"
-#include "input/input_structs.h"
 #include <stdlib.h>
 #include <fcntl.h>
 
-typedef t_status	(*t_parse_fn)(char **, t_scene *);
-
-static t_status	parse_element(t_object_type type, char **line, t_scene *scene)
+static void	init_scene_vars(t_scene *scene)
 {
-	static const t_parse_fn	jump_table[] = {
-	[AMBIENT_LIGHT] = &parse_ambient_light,
-	[CAMERA] = &parse_camera,
-	[LIGHT] = &parse_light,
-	[SPHERE] = &parse_sphere,
-	[PLANE] = &parse_plane,
-	[CYLINDER] = &parse_cylinder,
-	};
-
-	return (jump_table[type](line, scene));
-}
-
-static bool	unique_element_already_exists(t_object_type type, t_scene *scene)
-{
-	if (type == CAMERA && scene->camera.is_present)
-		return (true);
-	if (type == AMBIENT_LIGHT && scene->ambient.is_present)
-		return (true);
-	if (type == LIGHT && scene->light.is_present)
-		return (true);
-	return (false);
-}
-
-static char	*get_type_str(t_object_type type)
-{
-	static const char	*lookup_table[] = {
-	[AMBIENT_LIGHT] = "ambient light",
-	[CAMERA] = "camera",
-	[LIGHT] = "light",
-	[SPHERE] = "sphere",
-	[PLANE] = "plane",
-	[CYLINDER] = "cylinder",
-	};
-
-	return ((char *)lookup_table[type]);
-}
-
-static t_status	parse_scene_line(char *line, t_scene *scene)
-{
-	t_object_type	type;
-
-	while (ft_isspace(*line))
-		line++;
-	if (line[0] == '\0' || line[0] == '#')
-		return (OK);
-	if (parse_type(&line, &type) != OK)
-		return (FAIL);
-	if (unique_element_already_exists(type, scene))
-		return (rt_set_error(E_DUPLICATE_UNIQUE_ELEMENT, get_type_str(type)));
-	if (parse_element(type, &line, scene) != OK)
-		return (FAIL);
-	if (*line != '\0')
-		return (rt_set_error(E_EXTRA_TEXT, line));
-	return (OK);
+	scene->objects = NULL;
+	scene->camera.is_present = false;
+	scene->ambient.is_present = false;
+	scene->light.is_present = false;
 }
 
 static t_status	open_file(char *scene_path, int *fd)
@@ -86,18 +33,22 @@ static t_status	open_file(char *scene_path, int *fd)
 	return (OK);
 }
 
-t_status	parse_scene(char *scene_path, t_scene *scene)
+static t_status	check_required_elements(t_scene *scene)
 {
-	int		fd;
+	if (scene->camera.is_present == false)
+		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "camera"));
+	if (scene->ambient.is_present == false)
+		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "ambient light"));
+	if (scene->light.is_present == false)
+		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "light"));
+	return (OK);
+}
+
+static int	read_file(int fd, t_scene *scene)
+{
 	char	*line;
 	int		gnl;
 
-	scene->objects = NULL;
-	scene->ambient.is_present = false;
-	scene->camera.is_present = false;
-	scene->light.is_present = false;
-	if (open_file(scene_path, &fd) != OK)
-		return (FAIL);
 	gnl = get_next_line(fd, &line);
 	while (gnl != -1)
 	{
@@ -112,13 +63,21 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 			break ;
 		gnl = get_next_line(fd, &line);
 	}
-	if (scene->ambient.is_present == false)
-		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "ambient light"));
-	if (scene->camera.is_present == false)
-		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "camera"));
-	if (scene->light.is_present == false)
-		return (rt_set_error(E_MISSING_REQUIRED_ELEMENT, "light"));
+	return (gnl);
+}
+
+t_status	parse_scene(char *scene_path, t_scene *scene)
+{
+	int		fd;
+	int		gnl;
+
+	init_scene_vars(scene);
+	if (open_file(scene_path, &fd) != OK)
+		return (FAIL);
+	gnl = read_file(fd, scene);
 	close(fd);
+	if (check_required_elements(scene))
+		return (FAIL);
 	if (gnl < 0)
 		return (rt_set_error(E_GNL, NULL));
 	return (OK);

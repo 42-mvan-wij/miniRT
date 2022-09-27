@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:47:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/22 11:07:25 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/27 14:01:26 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "structs.h"
 
 t_status	parse_scene(char *scene_path, t_scene *scene);
+t_status	parse_scene_line(char *line, t_scene *scene);
 
 // fields
 t_status	parse_type(char **line, t_object_type *type);

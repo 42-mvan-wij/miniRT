@@ -6,7 +6,7 @@
 #    By: mvan-wij <mvan-wij@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/06/27 15:19:55 by mvan-wij      #+#    #+#                  #
-#    Updated: 2022/09/22 12:55:05 by mvan-wij      ########   odam.nl          #
+#    Updated: 2022/09/27 14:08:44 by rvan-duy      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SOURCES += \
 	src/input/fields/parse_vec_field.c			\
 	src/input/fields/parse_normal_field.c		\
 	src/input/parse_scene.c						\
+	src/input/parse_scene_line.c				\
 	src/render/intersect/cylinder.c				\
 	src/render/intersect/plane.c				\
 	src/render/intersect/sphere.c				\

@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/22 11:09:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 13:14:56 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 13:59:25 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static t_status	verify_args(int argc, char **argv)
 
 static t_status	init_data(t_rt_data *rt_data)
 {
-	rt_data->width = 1920;
-	rt_data->height = 1080;
+	rt_data->width = 512;
+	rt_data->height = 512;
 	rt_data->mlx = mlx_init(rt_data->width, rt_data->height,
 			"miniRT [mvan-wij - rvan-duy]", true);
 	if (rt_data->mlx == NULL)

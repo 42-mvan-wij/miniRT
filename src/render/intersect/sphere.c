@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:02:39 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 11:16:35 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 13:58:29 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 bool	intersect_sphere_comp(t_ray ray, t_vec3 origin, long double radius,
 			long double t[2])
 {
-	const t_vec3		diff = sub(origin, ray.origin); // d
-	const long double	tc = dot(diff, ray.dir); // p1
+	const t_vec3		diff = sub(origin, ray.origin);
+	const long double	tc = dot(diff, ray.dir);
 	long double			d2;
-	long double			t1c; // p2
+	long double			t1c;
 
 	d2 = mag2(diff) - tc * tc;
 	if (d2 > radius * radius)
@@ -33,8 +33,6 @@ bool	intersect_sphere_comp(t_ray ray, t_vec3 origin, long double radius,
 	return (true);
 }
 
-// https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
-// http://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
 void	intersect_sphere(t_ray ray, t_rayhit *best_hit, t_object *shape,
 			t_vec3 *ignore_normal)
 {
