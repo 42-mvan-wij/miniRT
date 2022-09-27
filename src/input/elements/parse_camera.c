@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/27 15:03:53 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/19 11:45:05 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/27 11:55:20 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ t_status	parse_camera(char **line, t_scene *scene)
 		return (FAIL);
 	if (scene->camera.fov < 0 || scene->camera.fov > 180)
 		return (rt_set_error(E_EXPECTED_INTEGER, " in range of [0 - 180]"));
+	scene->camera.is_present = true;
 	return (OK);
 }

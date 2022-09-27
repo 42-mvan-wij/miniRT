@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/22 11:14:01 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/27 12:04:53 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,31 @@ static t_status	parse_element(t_object_type type, char **line, t_scene *scene)
 	return (jump_table[type](line, scene));
 }
 
+static bool	unique_element_already_exists(t_object_type type, t_scene *scene)
+{
+	if (type == CAMERA && scene->camera.is_present)
+		return (true);
+	if (type == AMBIENT_LIGHT && scene->ambient.is_present)
+		return (true);
+	if (type == LIGHT && scene->light.is_present)
+		return (true);
+	return (false);
+}
+
+static char	*get_type_str(t_object_type type)
+{
+	static const char	*lookup_table[] = {
+	[AMBIENT_LIGHT] = "ambient light",
+	[CAMERA] = "camera",
+	[LIGHT] = "light",
+	[SPHERE] = "sphere",
+	[PLANE] = "plane",
+	[CYLINDER] = "cylinder",
+	};
+
+	return ((char *)lookup_table[type]);
+}
+
 static t_status	parse_scene_line(char *line, t_scene *scene)
 {
 	t_object_type	type;
@@ -58,6 +83,8 @@ static t_status	parse_scene_line(char *line, t_scene *scene)
 		return (OK);
 	if (parse_type(&line, &type) != OK)
 		return (FAIL);
+	if (unique_element_already_exists(type, scene))
+		return (rt_set_error(E_DUPLICATE_UNIQUE_ELEMENT, get_type_str(type)));
 	if (parse_element(type, &line, scene) != OK)
 		return (FAIL);
 	if (*line != '\0')
@@ -79,6 +106,7 @@ t_status	parse_scene(char *scene_path, t_scene *scene)
 	char	*line;
 	int		gnl;
 
+	scene->objects = NULL;
 	if (open_file(scene_path, &fd) != OK)
 		return (FAIL);
 	gnl = get_next_line(fd, &line);

@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:42:21 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/14 10:12:34 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/27 11:49:02 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,21 @@
 typedef struct s_ambient {
 	long double	brightness;
 	uint32_t	rgba;
+	bool		is_present;
 }	t_ambient;
 
 typedef struct s_camera {
 	t_vec3		pos;
 	t_vec3		norm;
 	int			fov;
+	bool		is_present;
 }	t_camera;
 
 typedef struct s_light {
 	t_vec3		pos;
 	long double	brightness;
 	uint32_t	rgba;
+	bool		is_present;
 }	t_light;
 
 typedef struct s_sphere {

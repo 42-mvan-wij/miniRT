@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 16:26:00 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/22 12:57:30 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/27 12:05:09 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ void	rt_print_error(void)
 	[E_EXPECTED_NORMAL] = "Expected normalized vector",
 	[E_EXPECTED_IDENTIFIER] = "Expected identifier",
 	[E_EXPECTED_RT_FILE] = "Expected .rt file",
+	[E_DUPLICATE_UNIQUE_ELEMENT] = "Duplicate unique element: ",
 	[E_EXTRA_TEXT] = "Unexpected text: ",
 	[E_MLX] = "MLX Error: ",
 	[E_TOO_FEW_ARGS] = "Supplied to few arguments",
 	[E_TOO_MANY_ARGS] = "Supplied to many arguments",
 	};
 
-	ft_putstr_fd((char *)error_texts[error.error], STDOUT_FILENO);
-	ft_putendl_fd((char *)error.data_text, STDOUT_FILENO);
+	ft_putendl_fd("Error", STDERR_FILENO);
+	ft_putstr_fd((char *)error_texts[error.error], STDERR_FILENO);
+	ft_putendl_fd((char *)error.data_text, STDERR_FILENO);
 }

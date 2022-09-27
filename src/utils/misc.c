@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:00:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/01 14:40:27 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/09/14 15:36:46 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ bool	almost_equal(long double a, long double b)
 	long double	diff;
 
 	diff = a - b;
-	return (diff <= __DBL_EPSILON__ * 10 && diff >= -__DBL_EPSILON__ * 10);
+	return (diff <= __DBL_EPSILON__ * 100 && diff >= -__DBL_EPSILON__ * 100);
 }

@@ -6,7 +6,7 @@
 /*   By: rvan-duy <rvan-duy@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/27 15:29:57 by rvan-duy      #+#    #+#                 */
-/*   Updated: 2022/09/13 16:47:46 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 11:55:25 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ t_status	parse_light(char **line, t_scene *scene)
 		return (rt_set_error(E_EXPECTED_FLOAT, " in range of [0.0 - 1.0]"));
 	if (parse_rgb_field(line, &scene->light.rgba) != OK)
 		return (FAIL);
+	scene->light.is_present = true;
 	return (OK);
 }
