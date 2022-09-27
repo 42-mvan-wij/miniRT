@@ -6,13 +6,12 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 14:13:26 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/09/27 14:15:50 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structs.h"
 #include "utils/utils.h"
-#include "libft.h"
 #include "input/input.h"
 #include <stdlib.h>
 #include <fcntl.h>
