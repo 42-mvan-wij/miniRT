@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:04:26 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 13:58:50 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/10/11 16:04:11 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ t_vec3	add_light(t_vec3 current_color, t_vec3 light_color, t_vec3 base_color,
 									brightness)));
 }
 
+t_vec3	get_light_effect(long double cos_a, t_vec3 light_color,
+		long double dist)
+{
+	return (scale(scale(light_color, 0.5 - (0.5 - cos_a) * ANGLE_FACTOR),
+			1 / ((dist * dist) * DIST_FALLOFF * DIST_FALLOFF)));
+}
+
 t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 {
 	t_ray		light_ray;
@@ -56,8 +63,8 @@ t_vec3	adjust_color(t_vec3 color, t_rayhit hit, t_ray ray, t_rt_data *rt_data)
 		cos_a = dot(light_ray.dir, hit.vis_normal);
 		if (cos_a <= 0)
 			return (color);
-		effect = scale(scale(color2vec(rt_data->scene.light.rgba), cos_a),
-				1.0 / (mag(diff) + hit.distance) * (mag(diff) + hit.distance));
+		effect = get_light_effect(cos_a, color2vec(rt_data->scene.light.rgba),
+				mag(diff) + hit.distance);
 		color = add_light(color, effect,
 				get_shape_color(hit.shape), rt_data->scene.light.brightness);
 	}
