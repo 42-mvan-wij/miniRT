@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 14:12:14 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 14:15:50 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/10/11 14:34:33 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static t_status	check_required_elements(t_scene *scene)
 	return (OK);
 }
 
-static int	read_file(int fd, t_scene *scene)
+static t_status	read_file(int fd, t_scene *scene)
 {
 	char	*line;
 	int		gnl;
 
 	gnl = get_next_line(fd, &line);
-	while (gnl != -1)
+	while (gnl >= 0)
 	{
 		if (parse_scene_line(line, scene) != OK)
 		{
@@ -62,22 +62,24 @@ static int	read_file(int fd, t_scene *scene)
 			break ;
 		gnl = get_next_line(fd, &line);
 	}
-	return (gnl);
+	if (gnl < 0)
+		return (rt_set_error(E_GNL, NULL));
+	return (OK);
 }
 
 t_status	parse_scene(char *scene_path, t_scene *scene)
 {
-	int		fd;
-	int		gnl;
+	int			fd;
+	t_status	read_status;
 
 	init_scene_vars(scene);
 	if (open_file(scene_path, &fd) != OK)
 		return (FAIL);
-	gnl = read_file(fd, scene);
+	read_status = read_file(fd, scene);
 	close(fd);
+	if (read_status != OK)
+		return (FAIL);
 	if (check_required_elements(scene))
 		return (FAIL);
-	if (gnl < 0)
-		return (rt_set_error(E_GNL, NULL));
 	return (OK);
 }
