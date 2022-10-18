@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/22 11:09:03 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/27 13:59:25 by rvan-duy      ########   odam.nl         */
+/*   Updated: 2022/10/18 12:02:16 by rvan-duy      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main(int argc, char **argv)
 {
 	t_rt_data	rt_data;
 
+	ft_bzero(&rt_data, sizeof(t_rt_data));
 	if (verify_args(argc, argv) != OK
 		|| parse_scene(argv[1], &rt_data.scene) != OK
 		|| init_data(&rt_data) != OK
