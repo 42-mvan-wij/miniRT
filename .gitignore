@@ -4,3 +4,4 @@
 !Makefile
 !*.mk
 !.git*
+!*.rt
