@@ -6,7 +6,7 @@
 /*   By: mvan-wij <mvan-wij@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 14:01:40 by mvan-wij      #+#    #+#                 */
-/*   Updated: 2022/09/20 17:18:56 by mvan-wij      ########   odam.nl         */
+/*   Updated: 2022/10/20 12:53:05 by mvan-wij      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ t_ray	in_cylinder_perspective(t_ray ray, t_cylinder *cylinder)
 	t_matrix	m;
 	t_ray		out_ray;
 
-	if (almost_equal(cylinder->norm.y, 1))
+	if (almost_equal(cylinder->norm.y, 1) || almost_equal(cylinder->norm.y, -1))
+	{
+		ray.origin = sub(ray.origin, cylinder->pos);
 		return (ray);
-	flat_normal = cylinder->norm;
-	flat_normal.y = 0;
+	}
+	flat_normal = vec3(cylinder->norm.x, 0, cylinder->norm.z);
 	cos_sin(vec3(1, 0, 0), flat_normal, cos_sin_a);
 	cos_sin(vec3(0, 1, 0), cylinder->norm, cos_sin_b);
 	m = compose(matrix_from_vecs(
